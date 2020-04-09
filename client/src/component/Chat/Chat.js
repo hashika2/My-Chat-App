@@ -18,6 +18,16 @@ const Chat = ({ location,registerRoom ,isAuthenticated}) => {
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
+    setRoom(room);
+    setName(name);
+    setProfile(profile);
+
+    socket.emit('join', { name, room }, (error) => {
+      if(error) {
+        alert(error);
+      }
+      registerRoom({name,room});
+    });
 
   }, [ENDPOINT, location.search]);
   
