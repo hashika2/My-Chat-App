@@ -18,7 +18,7 @@ io.on('connect', (socket) =>{
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
-    if(error) return callback(error); 
+    if(error) return callback(error);
 
     socket.join(user.room);
 
@@ -28,7 +28,7 @@ io.on('connect', (socket) =>{
     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
     callback();
-  });  
+  });
 
   socket.on('disconnect', () => {
    

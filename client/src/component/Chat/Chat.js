@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
-import InforBar from '../InForBar/InforBar'
+import InforBar from '../InForBar/InforBar';
+import Input from '../Input/Input';
 
 
 
@@ -41,11 +42,21 @@ const Chat = ({ location,registerRoom ,isAuthenticated}) => {
     });
 }, []);
 
+const sendMessage = (event) => {
+  event.preventDefault();
+
+  if(message) {
+    socket.emit('sendMessage', message, () => setMessage(''));
+  }
+  //socket.emit('typing',"typing")
+}
+
   
   return (
     <div className="outerContainer">
         <div className="container">
           <InforBar room={room}/>
+          <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
         </div>
     </div>
   );
