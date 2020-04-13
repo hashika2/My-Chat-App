@@ -31,7 +31,15 @@ const Chat = ({ location,registerRoom ,isAuthenticated}) => {
 
   }, [ENDPOINT, location.search]);
   
-  
+  useEffect(() => {
+    socket.on('message', message => {
+      setMessages(messages => [ ...messages, message ]);
+    });
+
+    socket.on("roomData", ({ users }) => {
+      setUsers(users);
+    });
+}, []);
 
   
   return (
