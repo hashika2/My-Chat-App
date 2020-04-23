@@ -1,5 +1,6 @@
-import React,{Provider} from 'react';
+import React from 'react';
 import store from './store';
+import {Provider} from 'react-redux'
 
 import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
