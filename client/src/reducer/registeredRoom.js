@@ -1,6 +1,6 @@
 const initialesState={
     data:null,
-    isRequired:false
+    isAuthenticated:false
 }
 
 export default function(state=initialesState, action){
@@ -9,7 +9,7 @@ export default function(state=initialesState, action){
             return{
                 ...state,
                 data:action.payload,
-                isRequired:true
+                isAuthenticated:true
             }
         default:
             return state;

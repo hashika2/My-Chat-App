@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import {roommed} from '../../action/index';
+import {connect} from 'react-redux';
 
 import './Join.css';
 
-export default function SignIn() {
+const SignIn=({roommed,isAuthenticated}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
 
+  const onSubmit=(e)=>{
+    e.preventDefault();
+    roommed({name,room})
+  }
+  if(isAuthenticated){
+    return <Redirect to='/chat'/>
+  }
+
   return (
+    <form onSubmit={e=>onSubmit(e)} >
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
         <h1 className="heading">Join</h1>
@@ -22,5 +33,11 @@ export default function SignIn() {
         </Link>
       </div>
     </div>
+    </form>
   );
+  
 }
+const mapStateToProps=state => ({
+  isAuthenticated:state.registeredRoom.isAuthenticated
+})
+export default connect(mapStateToProps,{roommed})(SignIn);

@@ -1,7 +1,8 @@
-export const roommed=(name,room) => {
+export const roommed=(name,room) =>async dispatch=> {
     const res={name,room}
-    dispatch={
-        type='ROOMED',
-        payload=res.data
-    }
+    console.log("test")
+    dispatch({
+        type:'ROOMED',
+        payload:res.data
+    })
 }
