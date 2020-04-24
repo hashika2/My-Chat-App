@@ -1,6 +1,7 @@
 import React from 'react';
 import store from './store';
 import {Provider} from 'react-redux'
+import PrivateRoute from './PrivateRoute';
 
 import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
@@ -12,7 +13,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Route path="/" exact component={Join} />
-        <Route path="/chat" component={Chat} />
+        <PrivateRoute path="/chat" component={Chat} />
       </Router> 
     </Provider>
     

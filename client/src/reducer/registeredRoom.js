@@ -1,6 +1,6 @@
 const initialesState={
     data:null,
-    isAuthenticated:false
+    isAuthenticated:null
 }
 
 export default function(state=initialesState, action){

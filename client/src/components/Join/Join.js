@@ -29,9 +29,10 @@ const SignIn=({roommed,isAuthenticated}) =>{
         <div>
           <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(event) => setRoom(event.target.value)} />
         </div>
-        <Link onClick={e => (!name || !room) ? e.preventDefault() : onSubmit(e)} to={`/chat?name=${name}&room=${room}`}>
+        <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
           <button className={'button mt-20'} type="submit">Sign In</button>
         </Link>
+          <button className={'button mt-20'} type="submit">Private Message</button>
       </div>
     </div>
     </form>
@@ -39,7 +40,7 @@ const SignIn=({roommed,isAuthenticated}) =>{
   );
   
 }
-// const mapStateToProps=state => ({
-//   isAuthenticated:state.registeredRoom.isAuthenticated
-// })
-export default connect(null,{roommed})(SignIn);
+const mapStateToProps=state => ({
+  isAuthenticated:state.registeredRoom
+})
+export default connect(mapStateToProps,{roommed})(SignIn);
