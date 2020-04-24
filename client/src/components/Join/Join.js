@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import {roommed} from '../../action/index';
 import {connect} from 'react-redux';
@@ -14,10 +14,11 @@ const SignIn=({roommed,isAuthenticated}) =>{
     roommed({name,room})
   }
   if(isAuthenticated){
-    return <Redirect to='/chat'/>
+    return <Redirect to={`/chat?name=${name}&room=${room}`}/>
   }
 
   return (
+    <Fragment>
     <form onSubmit={e=>onSubmit(e)} >
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
@@ -28,16 +29,17 @@ const SignIn=({roommed,isAuthenticated}) =>{
         <div>
           <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(event) => setRoom(event.target.value)} />
         </div>
-        <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
+        <Link onClick={e => (!name || !room) ? e.preventDefault() : onSubmit(e)} to={`/chat?name=${name}&room=${room}`}>
           <button className={'button mt-20'} type="submit">Sign In</button>
         </Link>
       </div>
     </div>
     </form>
+    </Fragment>
   );
   
 }
-const mapStateToProps=state => ({
-  isAuthenticated:state.registeredRoom.isAuthenticated
-})
-export default connect(mapStateToProps,{roommed})(SignIn);
+// const mapStateToProps=state => ({
+//   isAuthenticated:state.registeredRoom.isAuthenticated
+// })
+export default connect(null,{roommed})(SignIn);

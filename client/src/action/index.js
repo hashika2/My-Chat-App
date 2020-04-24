@@ -1,4 +1,4 @@
-export const roommed=(name,room) =>async dispatch=> {
+export const roommed=({name,room}) =>async dispatch=> {
     const res={name,room}
     console.log("test")
     dispatch({
