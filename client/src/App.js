@@ -13,7 +13,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Route path="/" exact component={Join} />
-        <PrivateRoute path="/chat" component={Chat} />
+        <Route path="/chat" component={Chat} />
       </Router> 
     </Provider>
     

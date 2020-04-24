@@ -19,10 +19,17 @@ const SignIn=({roommed,isAuthenticated}) =>{
 
   return (
     <Fragment>
-    <form onSubmit={e=>onSubmit(e)} >
+   
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
+      <h1 className="heading">Rooms</h1>
+        <button className={'button mt-20'} >Students</button>
+        <button className={'button mt-20'} >Clients</button>
+        <button className={'button mt-20'} >Office</button>
+      </div>
+      <div className="joinInnerContainer">
         <h1 className="heading">Join</h1>
+        <form onSubmit={e=>onSubmit(e)} >
         <div>
           <input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} />
         </div>
@@ -33,9 +40,10 @@ const SignIn=({roommed,isAuthenticated}) =>{
           <button className={'button mt-20'} type="submit">Sign In</button>
         </Link>
           <button className={'button mt-20'} type="submit">Private Message</button>
+          </form>
       </div>
     </div>
-    </form>
+
     </Fragment>
   );
   
