@@ -8,6 +8,10 @@ import './Join.css';
 const SignIn=({roommed,isAuthenticated}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const students='Students';
+  const officers='Officers';
+  const clients ='Clients';
+  const developers ='Developers';
 
   const onSubmit=(e)=>{
     e.preventDefault();
@@ -23,9 +27,19 @@ const SignIn=({roommed,isAuthenticated}) =>{
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
       <h1 className="heading">Rooms</h1>
-        <button className={'button mt-20'} >Students</button>
-        <button className={'button mt-20'} >Clients</button>
-        <button className={'button mt-20'} >Office</button>
+      <Link  to={`/chat?name=hashika&room=${students}`}>
+          <button className={'button mt-20'} type="submit">Students</button>
+      </Link>
+      <Link  to={`/chat?name=hashika&room=${officers}`}>
+          <button className={'button mt-20'} type="submit">Officers</button>
+      </Link>
+      <Link  to={`/chat?name=hashika&room=${clients}`}>
+          <button className={'button mt-20'} type="submit">Clients</button>
+      </Link>
+      <Link  to={`/chat?name=hashika&room=${developers}`}>
+          <button className={'button mt-20'} type="submit">Developers</button>
+      </Link>
+        
       </div>
       <div className="joinInnerContainer">
         <h1 className="heading">Join</h1>
