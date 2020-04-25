@@ -28,14 +28,13 @@ router.post(
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
-    console.log("come")
+    
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
     const { name, email, password } = req.body;
-
     try {
       let user = await User.findOne({ email });
 
@@ -50,12 +49,12 @@ router.post(
       //   r: 'pg',
       //   d: 'mm'
       // });
-
+      console.log(req.body)
       user = new User({
         name,
-        email
-        // avatar,
-        // password
+        email,
+         password,
+         //avatar,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -72,10 +71,11 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        "config.get('jwtSecret')",
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
+          console.log(token)
           res.json({ token });
         }
       );

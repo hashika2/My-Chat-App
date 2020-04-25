@@ -11,16 +11,16 @@ export const roommed=({name,room}) =>async dispatch=> {
         payload:res
     })
 }
-export const register=({username,email,password})=>async dispatch=>{
+export const register=({name,email,password})=>async dispatch=>{
     const config = {
         headers: {
           'Content-Type': 'application/json'
         }
       };
     const body={
-        username,email,password
+        name,email,password
     }
-    const res = await axios.post('/api/user/register',body,config);
+    const res = await axios.post('http://localhost:5000/api/user',body,config);
     dispatch({
         type:"USER_REGISTERED",
         payload:res.data
