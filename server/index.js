@@ -48,4 +48,6 @@ io.on('connect', (socket) => {
   })
 });
 
+app.use('/api/user',router);
+
 server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
