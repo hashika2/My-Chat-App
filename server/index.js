@@ -9,6 +9,7 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const router = require('./router');
 
 const app = express();
+app.use(express.json());
 const server = http.createServer(app);
 const io = socketio(server);
 

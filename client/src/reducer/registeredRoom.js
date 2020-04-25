@@ -11,7 +11,15 @@ export default function(state=initialesState, action){
                 data:action.payload,
                 isAuthenticated:true
             }
+        case 'USER_REGISTERED':
+            return{
+                ...state,
+                date:action.payload,
+                isAuthenticated:true
+            }
         default:
             return state;
     }
 }
+
+

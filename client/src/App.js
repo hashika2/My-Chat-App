@@ -7,6 +7,7 @@ import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Register from './auth/Register';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Router>
         <Route path="/" exact component={Join} />
         <Route path="/chat" component={Chat} />
+        <Route path="/register" component={Register} />
       </Router> 
     </Provider>
     
