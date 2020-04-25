@@ -1,31 +1,19 @@
 {
-  "name": "vidly",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.0",
-    "config": "^3.3.0",
     "cors": "^2.8.5",
-    "express": "^4.16.2",
-    "fawn": "^2.1.5",
-    "joi": "^13.7.0",
-    "joi-objectid": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.0.2",
-    "nodemailer": "^6.4.3",
-    "nodemon": "^2.0.2",
-    "passport": "^0.4.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10",
+    "nodemon": "^2.0.3",
     "socket.io": "^2.3.0"
   }
 }

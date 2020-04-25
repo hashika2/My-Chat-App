@@ -4,17 +4,17 @@ const socketio = require('socket.io');
 const cors = require('cors');
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
-const {saveMessage} =require('./dbConnection');
 
 const router = require('./router');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
 app.use(cors());
 app.use(router);
 
-io.on('connect', (socket) =>{
+io.on('connect', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
@@ -29,10 +29,10 @@ io.on('connect', (socket) =>{
 
     callback();
   });
+
   socket.on('sendMessage', (message, callback) => {
     const user = getUser(socket.id);
-    const savemss = saveMessage({message:message,name:user.name})
-    console.log(user.name)
+
     io.to(user.room).emit('message', { user: user.name, text: message });
 
     callback();
