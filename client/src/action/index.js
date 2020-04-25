@@ -26,3 +26,18 @@ export const register=({name,email,password})=>async dispatch=>{
         payload:res.data
     })
 }
+export const login=({email,password})=>async dispatch=>{
+    const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+    const body={
+        email,password
+    }
+    const res = await axios.post('http://localhost:5000/api/user/login',body,config);
+    dispatch({
+        type:"USER_LOGGED",
+        payload:res.data
+    })
+}

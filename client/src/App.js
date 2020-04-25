@@ -8,6 +8,7 @@ import Join from './components/Join/Join';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Register from './auth/Register';
+import Login from './auth/Login';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/" exact component={Join} />
         <Route path="/chat" component={Chat} />
         <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
       </Router> 
     </Provider>
     

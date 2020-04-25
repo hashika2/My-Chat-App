@@ -12,11 +12,13 @@ export default function(state=initialesState, action){
                 isAuthenticated:true
             }
         case 'USER_REGISTERED':
+        case 'USER_LOGGED':
             return{
                 ...state,
                 date:action.payload,
                 isAuthenticated:true
             }
+    
         default:
             return state;
     }
