@@ -2,16 +2,19 @@ import React, { useState, Fragment } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import {roommed} from '../../action/index';
 import {connect} from 'react-redux';
+import queryString from 'query-string';
 
 import './Join.css';
 
-const SignIn=({roommed,isAuthenticated}) =>{
+const SignIn=({roommed,isAuthenticated,location}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const students='Students';
   const officers='Officers';
   const clients ='Clients';
   const developers ='Developers';
+
+  const { email } = queryString.parse(location.search);
 
   const onSubmit=(e)=>{
     e.preventDefault();
@@ -27,16 +30,16 @@ const SignIn=({roommed,isAuthenticated}) =>{
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
       <h1 className="heading">Rooms</h1>
-      <Link  to={`/chat?name=hashika&room=${students}`}>
+      <Link  to={`/chat?name=${email}&room=${students}`}>
           <button className={'button mt-20'} type="submit">Students</button>
       </Link>
-      <Link  to={`/chat?name=hashika&room=${officers}`}>
+      <Link  to={`/chat?name=${email}&room=${officers}`}>
           <button className={'button mt-20'} type="submit">Officers</button>
       </Link>
-      <Link  to={`/chat?name=hashika&room=${clients}`}>
+      <Link  to={`/chat?name=${email}&room=${clients}`}>
           <button className={'button mt-20'} type="submit">Clients</button>
       </Link>
-      <Link  to={`/chat?name=hashika&room=${developers}`}>
+      <Link  to={`/chat?name=${email}&room=${developers}`}>
           <button className={'button mt-20'} type="submit">Developers</button>
       </Link>
         

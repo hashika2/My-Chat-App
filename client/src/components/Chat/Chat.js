@@ -19,7 +19,7 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   const ENDPOINT = 'https://sleepy-castle-27435.herokuapp.com/'
 
-  useEffect(() => {
+  useEffect(() => {  
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
