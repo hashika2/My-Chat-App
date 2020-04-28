@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
-import registeredRoom from './auth'
+import auth from './auth'
 
 export default combineReducers({
-    room:registeredRoom
+    auth:auth
 })

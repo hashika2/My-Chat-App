@@ -28,6 +28,7 @@ const Register = ({ register, isAuthenticated }) => {
   };
 
   if (isAuthenticated) {
+    console.log(isAuthenticated)
     return <Redirect to='/dashboard' />;
   }
 

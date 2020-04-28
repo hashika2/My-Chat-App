@@ -77,8 +77,8 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
     // Check for user
     if (!user) {
-      errors.email = 'User not found';
-      return res.status(404).json(errors);
+      error.email = 'User not found';
+      return res.status(404).json(error);
     }
 
     // Check Password
@@ -92,6 +92,7 @@ router.post('/login', (req, res) => {
           "jwtPrivateKey",
           { expiresIn: 3600 }
         );
+        console.log(token)
         res.send(token)
         // (err, token) => {
         //   res.json({
@@ -100,8 +101,8 @@ router.post('/login', (req, res) => {
         //   });
         // }
       } else {
-        errors.password = 'Password incorrect';
-        return res.status(400).json(errors);
+        error.password = 'Password incorrect';
+        return res.status(400).json(error);
       }
     });
   });

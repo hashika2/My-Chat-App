@@ -1,6 +1,6 @@
 const initialesState={
     data:null,
-    isAuthenticated:true
+    isAuthenticated:false
 }
 
 export default function(state=initialesState, action){
@@ -15,7 +15,7 @@ export default function(state=initialesState, action){
         case 'USER_LOGGED':
             return{
                 ...state,
-                date:action.payload,
+                data:action.payload,
                 isAuthenticated:true
             }
     

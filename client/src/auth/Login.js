@@ -18,11 +18,12 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = async e => {
     e.preventDefault();  
-    login(email, password);
+    login({email, password});
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    console.log("isAuthenticated")
+    return <Redirect to='/' />;
   }
 
   return (
@@ -49,7 +50,7 @@ const Login = ({ login, isAuthenticated }) => {
             name='password'
             value={password}
             onChange={e => onChange(e)}
-            minLength='6'
+            
           />
         </div>
         <input type='submit' className='btn btn-primary' value='Login' />
@@ -67,7 +68,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
