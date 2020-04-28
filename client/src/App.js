@@ -14,10 +14,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Route path="/" exact component={Join} />
+        <PrivateRoute path="/join" exact component={Join} />
         <Route path="/chat" component={Chat} />
         <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        <Route path="/" component={Login} />
       </Router> 
     </Provider>
     

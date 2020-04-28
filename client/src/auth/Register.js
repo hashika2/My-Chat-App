@@ -29,7 +29,7 @@ const Register = ({ register, isAuthenticated }) => {
 
   if (isAuthenticated) {
     console.log(isAuthenticated)
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/join' />;
   }
 
   return (
@@ -95,7 +95,7 @@ Register.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(

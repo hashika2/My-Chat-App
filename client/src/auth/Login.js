@@ -23,7 +23,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   if (isAuthenticated) {
     console.log("isAuthenticated")
-    return <Redirect to='/' />;
+    return <Redirect to='/join' />;
   }
 
   return (
