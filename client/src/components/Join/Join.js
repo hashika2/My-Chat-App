@@ -14,6 +14,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   const clients ='Clients';
   const developers ='Developers';
 
+  //get email from the link
   const { email } = queryString.parse(location.search);
 
   const onSubmit=(e)=>{

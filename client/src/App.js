@@ -14,10 +14,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
+
+        <Route path="/" exact component={Login} />
+        <Route path="/register" exact component={Register} />
         <PrivateRoute path="/join" exact component={Join} />
-        <Route path="/chat" component={Chat} />
-        <Route path="/register" component={Register} />
-        <Route path="/" component={Login} />
+        <Route path="/chat" exact component={Chat} />
+       
       </Router> 
     </Provider>
     

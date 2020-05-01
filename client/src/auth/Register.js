@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-//import { setAlert } from '../../actions/alert';
+import { setAlert } from '../action/alert';
 import { register } from '../action/index';
 import PropTypes from 'prop-types';
 
-const Register = ({ register, isAuthenticated }) => {
+const Register = ({ register, isAuthenticated ,setAlert}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,9 +19,11 @@ const Register = ({ register, isAuthenticated }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
+    console.log("test")
     e.preventDefault();
     if (password !== password2) {
-      //setAlert('Passwords do not match', 'danger');
+      setAlert('Passwords do not match', 'danger');
+      console.log("doesn't macth")
     } else {
       register({ name, email, password });
     }
@@ -100,5 +102,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register }
+  { register,setAlert }
 )(Register);
