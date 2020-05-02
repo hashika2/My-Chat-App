@@ -10,7 +10,10 @@ const router = require('./router');
 const database = require('./dbConnection');
 //database.db();
 
-
+let chatuser=mongoose.model('chats',{
+  name:String,
+  message:String
+})
 const mongo = require('mongodb').MongoClient;
 mongo.connect("mongodb://localhost/db",function(err,db){
   if(err){
@@ -50,16 +53,13 @@ io.on('connect', (socket) => {
 
     io.to(user.room).emit('message', { user: user.name, text: message });
 
-    // let chatuser=mongoose.module('chats',{
-    //   name:String,
-    //   message:String
-    // })
-    // const u= new chatuser({
-    //   name:user.name,
-    //   message:message
-    // })
-    // u.save();
     callback();
+    
+    const u= new chatuser({
+      name:user.name,
+      message:message
+    })
+    u.save();
   });
 
   socket.on('disconnect', () => {
