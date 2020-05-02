@@ -3,12 +3,21 @@ const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
 const chatUser = require('./chatUser');
-const mongoose = require('mongoose')
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
+const mongoose =require('mongoose');
 const router = require('./router');
 const database = require('./dbConnection');
-database.db();
+//database.db();
+
+
+const mongo = require('mongodb').MongoClient;
+mongo.connect("mongodb://localhost/db",function(err,db){
+  if(err){
+    throw err
+  }
+  console.log("connected db")
+  
 
 const app = express();
 app.use(express.json());
@@ -19,6 +28,8 @@ app.use(cors());
 app.use(router);
 
 io.on('connect', (socket) => {  
+
+ 
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
@@ -39,12 +50,15 @@ io.on('connect', (socket) => {
 
     io.to(user.room).emit('message', { user: user.name, text: message });
 
-    let cUser = new chatUser({
-      user:user.name,
-      room:message
-    });
-    cUser.save();
-    
+    // let chatuser=mongoose.module('chats',{
+    //   name:String,
+    //   message:String
+    // })
+    // const u= new chatuser({
+    //   name:user.name,
+    //   message:message
+    // })
+    // u.save();
     callback();
   });
 
@@ -61,3 +75,4 @@ io.on('connect', (socket) => {
 app.use('/api/user',router);
 
 server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
+})
