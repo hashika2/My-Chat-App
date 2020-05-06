@@ -54,12 +54,17 @@ io.on('connect', (socket) => {
     io.to(user.room).emit('message', { user: user.name, text: message });
 
     callback();
-    
+    //save messages to db
     const u= new chatuser({
       name:user.name,
       message:message
     })
     u.save();
+    chatuser.find({message},(err,dbData)=>{
+      
+      console.log(dbData)
+    });
+
   });
 
   socket.on('disconnect', () => {

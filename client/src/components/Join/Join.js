@@ -3,12 +3,15 @@ import { Link, Redirect } from "react-router-dom";
 import {roommed} from '../../action/index';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
+import axios from 'axios';
 
 import './Join.css';
+import Axios from 'axios';
 
 const SignIn=({roommed,isAuthenticated,location}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [selectedImage,setImage] = useState('');
   const students='Students';
   const officers='Officers';
   const clients ='Clients';
@@ -23,6 +26,19 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   }
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
+  }
+  // const state={
+  //   selectedFile:null
+  // }
+  const onChangeHandler = event =>{
+   setImage(event.target.files[0])
+  }
+  const fielUploadHandler=()=>{
+    const fd= new FormData();
+    fd.append('image',selectedImage,selectedImage.image);
+    axios.post('',fd).then(res=>{
+      console.log(res)
+    })
   }
 
   return (
@@ -58,6 +74,8 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
             <button className={'button mt-20'} type="submit">Sign In</button>
           </Link>
           <button className={'button mt-20'} type="submit">Private Message</button>
+          <input type="file" onChange={onChangeHandler}/>
+          <button onClick={fielUploadHandler}>Upload</button>
         </form>
       </div>
     </div>
