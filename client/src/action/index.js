@@ -5,7 +5,6 @@ export const roommed=({name,room}) =>async dispatch=> {
         name:name,
         room:room
     }
-    console.log("test")
     dispatch({
         type:'ROOMED',
         payload:res

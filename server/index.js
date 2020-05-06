@@ -59,11 +59,20 @@ io.on('connect', (socket) => {
       name:user.name,
       message:message
     })
-    u.save();
-    chatuser.find({message},(err,dbData)=>{
-      
-      console.log(dbData)
+    u.save((error,doc) => {
+      console.log(doc);
+      if(error) return res.json({success:false});
+
+      chatuser.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
+        return io.emit("output message",doc);
+      })
     });
+
+
+    // chatuser.find({message},(err,dbData)=>{
+      
+    //   console.log(dbData)
+    // });
 
   });
 

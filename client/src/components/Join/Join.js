@@ -27,18 +27,20 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
   }
-  // const state={
-  //   selectedFile:null
-  // }
+  const state={
+    selectedFile:null
+  }
   const onChangeHandler = event =>{
-   setImage(event.target.files[0])
+   //setImage(event.target.files[0])
+   state.selectedFile = event.target.files[0]
   }
   const fielUploadHandler=()=>{
-    const fd= new FormData();
-    fd.append('image',selectedImage,selectedImage.image);
-    axios.post('',fd).then(res=>{
-      console.log(res)
-    })
+    // const fd= new FormData();
+    // fd.append('image',selectedImage,selectedImage.image);
+    // axios.post('',fd).then(res=>{
+    //   console.log(res)
+    // })
+    
   }
 
   return (
@@ -74,7 +76,8 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
             <button className={'button mt-20'} type="submit">Sign In</button>
           </Link>
           <button className={'button mt-20'} type="submit">Private Message</button>
-          <input type="file" onChange={onChangeHandler}/>
+          <input style={{display:'none'}} type="file" onChange={onChangeHandler} ref={fileInput => fileInput = fileInput}/>
+          <button onClick={(fileInput)=>{fileInput.click()}}>Pick Image</button>
           <button onClick={fielUploadHandler}>Upload</button>
         </form>
       </div>

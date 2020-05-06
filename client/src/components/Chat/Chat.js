@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
+import {afterPostMessage} from '../../action/postMessage';
+import {connect} from 'react-redux';
 
 import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
@@ -11,7 +13,7 @@ import './Chat.css';
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({ location,afterPostMessage }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -43,6 +45,10 @@ const Chat = ({ location }) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
+    socket.on("output message",doc =>{
+      console.log(doc);
+      afterPostMessage(doc)
+    })
 }, []);
 
   const sendMessage = (event) => {
@@ -65,4 +71,4 @@ const Chat = ({ location }) => {
   );
 }
 
-export default Chat;
+export default connect(null,{afterPostMessage})(Chat);
