@@ -1,6 +1,6 @@
-export function afterPostMessage(postMessagedata){
+export const afterPostMessage=(postMessagedata)=>{
     return({
-        action:"AFTER_POST_MESSAGE",
-        payload:postMessagedata.da
+        type:"AFTER_POST_MESSAGE",
+        payload:postMessagedata
     })
 }

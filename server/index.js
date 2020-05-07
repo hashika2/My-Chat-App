@@ -65,7 +65,7 @@ io.on('connect', (socket) => {
 
       chatuser.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
         return io.emit("output message",doc);
-      })
+      })  
     });
 
 

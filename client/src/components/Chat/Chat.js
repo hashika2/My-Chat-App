@@ -40,6 +40,7 @@ const Chat = ({ location,afterPostMessage }) => {
   useEffect(() => {
     socket.on('message', message => {
       setMessages(messages => [ ...messages, message ]);
+
     });
     
     socket.on("roomData", ({ users }) => {
@@ -57,6 +58,7 @@ const Chat = ({ location,afterPostMessage }) => {
     if(message) {
       socket.emit('sendMessage', message, () => setMessage(''));
     }
+
   }
 
   return (
