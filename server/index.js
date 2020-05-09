@@ -60,14 +60,14 @@ io.on('connect', (socket) => {
       message:message
     })
     u.save((error,doc) => {
-      console.log(doc);
+      console.log(doc.message);
       if(error) return res.json({success:false});
 
       chatuser.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
-        return io.emit("output message",doc);
+        return io.emit("output message",doc); 
       })  
-    });
-
+         
+    });   
 
     // chatuser.find({message},(err,dbData)=>{
       
