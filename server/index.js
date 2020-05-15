@@ -5,21 +5,27 @@ const cors = require('cors');
 const chatUser = require('./chatUser');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
 const router = require('./router');
-const database = require('./dbConnection');
-//database.db();
+// const database = require('./dbConnection');
+// database.db();
 
-let chatuser=mongoose.model('chats',{
+
+let chatuser = mongoose.model('chats',{
+  name:String,
+  message:String
+});
+let studentUser = mongoose.model('students',{
+  name:String,
+  message:String
+});
+let friendUser = mongoose.model('friends',{
   name:String,
   message:String
 })
-const mongo = require('mongodb').MongoClient;
-mongo.connect("mongodb://localhost/db",function(err,db){
-  if(err){
-    throw err
-  }
-  console.log("connected db")
+// const mongo = require('mongodb').MongoClient;
+
+//   console.log("connected db")
   
 
 const app = express();
@@ -54,16 +60,26 @@ io.on('connect', (socket) => {
     io.to(user.room).emit('message', { user: user.name, text: message });
 
     callback();
+    let u = null;
     //save messages to db
-    const u= new chatuser({
+    // if(user.room == 'Students'){
+    //    u = new studentUser({
+    //     name:user.name,
+    //     message:message
+    //   })
+    // }
+    //else {
+     u = new chatuser({
       name:user.name,
       message:message
     })
-    u.save((error,doc) => {
+  //}
+    u.save((error,doc) => {    
       console.log(doc.message);
       if(error) return res.json({success:false});
 
       chatuser.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
+        // console.log(doc)
         return io.emit("output message",doc); 
       })  
          
@@ -89,4 +105,3 @@ io.on('connect', (socket) => {
 app.use('/api/user',router);
 
 server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
-})

@@ -13,7 +13,7 @@ import './Chat.css';
 
 let socket;
 
-const Chat = ({ location,afterPostMessage }) => {
+const Chat = ({ location,afterPostMessage,chats }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -39,17 +39,23 @@ const Chat = ({ location,afterPostMessage }) => {
   
   useEffect(() => {
     socket.on('message', message => {
-      setMessages(messages => [ ...messages, message ]);
-
+     
+      socket.on("output message",doc =>{
+        console.log(doc);
+        afterPostMessage(doc);
+        // chats.map((chat)=>{
+        //   console.log(chat.message)
+        // })
+        console.log(chats)
+        
+      })
+      setMessages(messages => [ ...messages,message ])
     });
     
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-    socket.on("output message",doc =>{
-      console.log(doc);
-      afterPostMessage(doc)
-    })
+   
 }, []);
 
   const sendMessage = (event) => {
@@ -72,5 +78,8 @@ const Chat = ({ location,afterPostMessage }) => {
     </div>
   );
 }
+const mapStateToProps=state=>({
+  chats:state.postMessage.chats
+})
 
-export default connect(null,{afterPostMessage})(Chat);
+export default connect(mapStateToProps,{afterPostMessage})(Chat);

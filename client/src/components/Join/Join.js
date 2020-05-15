@@ -27,7 +27,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
   }
-  const state={
+  const state = {
     selectedFile:null
   }
   const onChangeHandler = event =>{
@@ -35,7 +35,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
    state.selectedFile = event.target.files[0]
   }
   const fielUploadHandler=()=>{
-    // const fd= new FormData();
+    // const fd = new FormData();
     // fd.append('image',selectedImage,selectedImage.image);
     // axios.post('',fd).then(res=>{
     //   console.log(res)

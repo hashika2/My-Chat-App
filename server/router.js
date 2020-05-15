@@ -8,18 +8,27 @@ const express = require('express');
 const router = express.Router();
 const database =require ('./dbConnection')
 database.db();
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination:function(req,file,cb){
+    cb(null,'./uploads')
+  },
+  filename:function(req,file,cb){
+    cb(null,new Date().toISOString() +file.originalname)   
+  }
+})
 
-// const mongoose =require('mongoose');
+const upload = multer({storage:storage});
+const mongoose = require('mongoose');
 
 
 //connect with atlas
-// const uri = "mongodb+srv://dbUser:dbUser@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
-// mongoose.connect(uri,{useUnifiedTopology: true,useNewUrlParser: true})
-// console.log("db is connected")
+
 
 
 //register new user
-router.post('/', async (req, res) => {
+router.post('/',upload.single('profileImage'), async (req, res) => {
+  console.log(req.file);
   console.log(req.body)
   const {error}=validate(req.body);
   
@@ -60,7 +69,7 @@ router.post('/', async (req, res) => {
   // }
 
   //set token
-  const token=jwt.sign({payload},"jwtPrivateKey",{expiresIn:'24h'})
+  const token = jwt.sign({payload},"jwtPrivateKey",{expiresIn:'24h'})
   console.log(token)
   //res.send(_.pick(user,['_id','name','email']))
   res.send(token)
