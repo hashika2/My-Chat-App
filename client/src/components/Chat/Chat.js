@@ -46,10 +46,9 @@ const Chat = ({ location,afterPostMessage,chats }) => {
         // chats.map((chat)=>{
         //   console.log(chat.message)
         // })
-        console.log(chats)
-        
+        //console.log(chats)
       })
-      setMessages(messages => [ ...messages,message ])
+      setMessages(messages => [ ...messages,message ])     
     });
     
     socket.on("roomData", ({ users }) => {
