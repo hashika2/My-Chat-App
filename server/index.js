@@ -12,15 +12,25 @@ const router = require('./router');
 // database.db();
 
 const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
-let chatuser = mongoose.model('students',{
+
+//create different model
+let students = mongoose.model('students',{
   name:String,
   message:String
 });
-let studentUser = mongoose.model('chats',{
+let chats = mongoose.model('chats',{
   name:String,
   message:String
 });
 let officers = mongoose.model('officers',{
+  name:String,
+  message:String
+});
+let clients = mongoose.model('clients',{
+  name:String,
+  message:String
+});
+let developers = mongoose.model('developers',{
   name:String,
   message:String
 })
@@ -53,9 +63,10 @@ io.on('connect', (socket) => {
     io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
 
+
     //get data from db and send to font realtime
-    if(room =="Students"){
-    chatuser.find((err,data)=>{
+  if(room =="Students"){
+    students.find((err,data)=>{
       console.log(data)
       return io.emit("output message",data); 
     })
@@ -68,6 +79,8 @@ io.on('connect', (socket) => {
 
     callback();
   });
+
+
 
   socket.on('sendMessage', (message,room, callback) => {
     const user = getUser(socket.id);
@@ -83,17 +96,35 @@ io.on('connect', (socket) => {
         message:message
       })
     }
+    else if(room == "Students") {
+      u = new students({
+        name:user.name,
+        message:message
+      })
+    }
+    else if(room == "Clients") {
+      u = new clients({
+        name:user.name,
+        message:message
+      })
+    }
+    else if(room == "Developers") {
+      u = new developers({
+        name:user.name,
+        message:message
+      })
+    }
     else {
-     u = new chatuser({
-      name:user.name,
-      message:message
-    })
-  }
+      u = new chats({
+        name:user.name,
+        message:message
+      })
+    }
     u.save((error,doc) => {    
       console.log(doc.message);
       if(error) return res.json({success:false});
 
-      chatuser.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
+      chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
         //console.log(doc)
         //return io.emit("output message",doc); 
       })  
