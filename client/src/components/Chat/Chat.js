@@ -61,7 +61,7 @@ const Chat = ({ location,afterPostMessage,chats }) => {
     event.preventDefault();
 
     if(message) {
-      socket.emit('sendMessage', message, () => setMessage(''));
+      socket.emit('sendMessage', message,room, () => setMessage(''));
     }
 
   }

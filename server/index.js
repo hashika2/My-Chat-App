@@ -20,7 +20,7 @@ let studentUser = mongoose.model('chats',{
   name:String,
   message:String
 });
-let friendUser = mongoose.model('friends',{
+let officers = mongoose.model('officers',{
   name:String,
   message:String
 })
@@ -52,16 +52,24 @@ io.on('connect', (socket) => {
 
     io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
+
     //get data from db and send to font realtime
+    if(room =="Students"){
     chatuser.find((err,data)=>{
       console.log(data)
       return io.emit("output message",data); 
     })
+  }
+  else if(room =="Officers"){
+    officers.find((err,data) =>{
+      return io.emit("output message",data);
+    })
+  }
 
     callback();
   });
 
-  socket.on('sendMessage', (message, callback) => {
+  socket.on('sendMessage', (message,room, callback) => {
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
@@ -69,18 +77,18 @@ io.on('connect', (socket) => {
     callback();
     let u = null;
     //save messages to db
-    // if(user.room == 'Students'){
-    //    u = new studentUser({
-    //     name:user.name,
-    //     message:message
-    //   })
-    // }
-    //else {
+    if(room == 'Officers'){
+       u = new officers({
+        name:user.name,
+        message:message
+      })
+    }
+    else {
      u = new chatuser({
       name:user.name,
       message:message
     })
-  //}
+  }
     u.save((error,doc) => {    
       console.log(doc.message);
       if(error) return res.json({success:false});
