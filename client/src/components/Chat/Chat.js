@@ -39,7 +39,7 @@ const Chat = ({ location,afterPostMessage,chats }) => {
   
   useEffect(() => {
     socket.on('message', message => {
-    
+      console.log(message)
       setMessages(messages => [ ...messages,message ])  
          
     });
@@ -52,7 +52,10 @@ const Chat = ({ location,afterPostMessage,chats }) => {
       //console.log(chats)
      for(let i=0;i<doc.length; i++){
         console.log(doc[0].message)
-        let message = doc[i].message;
+        let message ={
+          text:doc[i].message,
+          user:doc[i].name
+        };
         setMessages(messages => [ ...messages,message ])  
       }
     })
