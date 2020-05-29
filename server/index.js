@@ -24,7 +24,7 @@ let chats = mongoose.model('chats',{
 });
 let officers = mongoose.model('officers',{
   name:String,
-  message:String
+  message:String      
 });
 let clients = mongoose.model('clients',{
   name:String,
@@ -64,7 +64,7 @@ io.on('connect', (socket) => {
 
 
 
-    //get data from db and send to font realtime
+  //get data from db and send to font realtime
   if(room =="Students"){
     students.find((err,data)=>{
       console.log(data)
@@ -76,7 +76,22 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }
-
+  else if(room =="Clients"){
+    clients.find((err,data) =>{
+      return io.emit("output message",data);
+    })
+  }
+  else if(room =="Developers"){
+    developers.find((err,data) =>{
+      return io.emit("output message",data);
+    })
+  }
+  else {
+    chats.find((err,data) =>{
+      console.log(data)
+      return io.emit("output message",data);
+    })
+  }
     callback();
   });
 
@@ -160,7 +175,7 @@ io.on('connect', (socket) => {
       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
     }
   })
-});
+});   
 
 app.use('/api/user',router);
 

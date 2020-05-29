@@ -22,7 +22,7 @@ const Chat = ({ location,afterPostMessage,chats }) => {
   //const ENDPOINT = 'https://sleepy-castle-27435.herokuapp.com/'
   const ENDPOINT ='localhost:5000'
 
-  useEffect(() => {  
+  useEffect(() => { 
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
@@ -39,22 +39,28 @@ const Chat = ({ location,afterPostMessage,chats }) => {
   
   useEffect(() => {
     socket.on('message', message => {
-     
-      socket.on("output message",doc =>{
-        console.log(doc);
-        afterPostMessage(doc);
-        // chats.map((chat)=>{
-        //   console.log(chat.message)
-        // })
-        //console.log(chats)
-      })
-      setMessages(messages => [ ...messages,message ])     
+    
+      setMessages(messages => [ ...messages,message ])  
+         
     });
+    socket.on("output message",doc =>{
+      console.log(doc);
+      afterPostMessage(doc);
+      // chats.filter((chat)=>{
+      //   console.log(chat.message)
+      // })
+      //console.log(chats)
+     for(let i=0;i<doc.length; i++){
+        console.log(doc[0].message)
+        let message = doc[i].message;
+        setMessages(messages => [ ...messages,message ])  
+      }
+    })
     
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-   
+      
 }, []);
 
   const sendMessage = (event) => {

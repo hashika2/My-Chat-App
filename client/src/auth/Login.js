@@ -8,27 +8,47 @@ const Login = ({ login, isAuthenticated,data }) => {
   
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
+  const [ emailError,setEmailError] = useState('');
+  const [passwordError,setPasswordError] =useState('');
 
   const { email, password } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
-    e.preventDefault();  
-    login({email, password});
-  };
+  const validate=()=>{
+    let emailError = "";
+    if(emailError.includes("@")){
+      emailError = "Email is not valid";
+      if(emailError){
+        setEmailError(emailError);
+        return false;
+      }
+      
+    }
+    if(passwordError){
+      let passwordError = "it not empty";
+      setPasswordError(passwordError);
+    }
+    return true;
+  }
 
+  const onSubmit = async e => {
+    e.preventDefault(); 
+    let validation = validate();
+    if(validation){
+
+    }
+    login({email, password});
+  }
   if (isAuthenticated) {
     console.log("isAuthenticated")
     return <Redirect to={`/join?email=${email}`} />;
   }
-  if(!data == null){
-    console.log(data);
-    return alert({data});
-  }
+  
+ 
 
   return (
     <Fragment>
@@ -39,14 +59,14 @@ const Login = ({ login, isAuthenticated,data }) => {
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input
-            type='email'
+            type='text'
             placeholder='Email Address'
             name='email'
             value={email}
             onChange={e => onChange(e)}
-            required
           />
         </div>
+        <div>{emailError}</div>
         <div className='form-group'>
           <input
             type='password'
@@ -57,6 +77,7 @@ const Login = ({ login, isAuthenticated,data }) => {
             
           />
         </div>
+        <div>{passwordError}</div>   
         <input type='submit' className='btn btn-primary' value='Login' />
       </form>
       <p className='my-1'>
