@@ -11,42 +11,45 @@ const Login = ({ login, isAuthenticated,data }) => {
     password: '',
   });
   const [ emailError,setEmailError] = useState('');
-  const [passwordError,setPasswordError] =useState('');
-
+  const [passwordError,setPasswordError] = useState('');
+  var error ="";
   const { email, password } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const validate=()=>{
-    let emailError = "";
-    if(emailError.includes("@")){
-      emailError = "Email is not valid";
-      if(emailError){
-        setEmailError(emailError);
-        return false;
-      }
+  // const validate=()=>{
+  //   let emailError = "";
+  //   if(emailError.includes("@")){
+  //     emailError = "Email is not valid";
+  //     if(emailError){
+  //       setEmailError(emailError);
+  //       return false;
+  //     }
       
-    }
-    if(passwordError){
-      let passwordError = "it not empty";
-      setPasswordError(passwordError);
-    }
-    return true;
-  }
+  //   }
+  //   if(passwordError){
+  //     let passwordError = "it not empty";
+  //     setPasswordError(passwordError);
+  //   }
+  //   return true;
+  // }
 
   const onSubmit = async e => {
     e.preventDefault(); 
-    let validation = validate();
-    if(validation){
+    // let validation = validate();
+    // if(validation){
 
-    }
-    login({email, password});
+    // }
+    const l=login({email, password});
+    console.log(l);
+    //error = l.response.data.name;
   }
   if (isAuthenticated) {
     console.log("isAuthenticated")
     return <Redirect to={`/join?email=${email}`} />;
   }
+    //setEmailError("login error");
   
  
 
@@ -56,6 +59,7 @@ const Login = ({ login, isAuthenticated,data }) => {
       <p className='lead'>
         <i className='fas fa-user' /> Sign Into Your Account
       </p>
+      <p>{error}</p>
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input

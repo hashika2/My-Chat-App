@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
-import {afterPostMessage} from '../../action/postMessage';
+import {afterPostMessage} from '../../../action/postMessage';
 import {connect} from 'react-redux';
 
-import TextContainer from '../TextContainer/TextContainer';
-import Messages from '../Messages/Messages';
-import InfoBar from '../InfoBar/InfoBar';
-import Input from '../Input/Input';
+import TextContainer from '../../TextContainer/TextContainer';
+import Messages from '../../Messages/Messages';
+import InfoBar from '../../InfoBar/InfoBar';
+import Input from '../../Input/Input';
 
-import './Chat.css';
+import './../Chat.css';
 
 let socket;
 
-const Chat = ({ location,afterPostMessage,chats }) => {
+const PrivateChat = ({ location,afterPostMessage,chats }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -82,7 +82,6 @@ const Chat = ({ location,afterPostMessage,chats }) => {
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
-      <TextContainer users={users}/>
     </div>
   );
 }
@@ -90,4 +89,4 @@ const mapStateToProps=state=>({
   chats:state.postMessage.chats
 })
 
-export default connect(mapStateToProps,{afterPostMessage})(Chat);
+export default connect(mapStateToProps,{afterPostMessage})(PrivateChat);

@@ -31,8 +31,8 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
     selectedFile:null
   }
   const onChangeHandler = event =>{
-   //setImage(event.target.files[0])
-   state.selectedFile = event.target.files[0]
+   setImage(event.target.files[0])
+   //state.selectedFile = event.target.files[0]
   }
   const fielUploadHandler=()=>{
     // const fd = new FormData();
@@ -75,8 +75,8 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
           <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
             <button className={'button mt-20'} type="submit">Sign In</button>
           </Link>
-          <button className={'button mt-20'} type="submit">Private Message</button>
-          <input style={{display:'none'}} type="file" onChange={onChangeHandler} ref={fileInput => fileInput = fileInput}/>
+          <Link to="privateChat"><button className={'button mt-20'} type="submit">Private Message</button></Link>
+          <input style = {{display:'none'}} type="file" onChange = {onChangeHandler} ref = {fileInput => fileInput = fileInput}/>
           <button onClick={(fileInput)=>{fileInput.click()}}>Pick Image</button>
           <button onClick={fielUploadHandler}>Upload</button>
         </form>

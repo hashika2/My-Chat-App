@@ -9,6 +9,7 @@ import Join from './components/Join/Join';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Register from './auth/Register';
 import Login from './auth/Login';
+import PrivateChat from './components/Chat/PrivateChat/PrivateChat';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/register" exact component={Register} />
         <PrivateRoute path="/join" exact component={Join} />
         <Route path="/chat" exact component={Chat} />
+        <Route path="/privateChat" exact component={PrivateChat} />
        
       </Router> 
     </Provider>
