@@ -10,6 +10,7 @@ import InfoBar from '../../InfoBar/InfoBar';
 import Input from '../../Input/Input';
 
 import './../Chat.css';
+import ChatLIst from "./ChatList";
 
 let socket;
 
@@ -23,33 +24,33 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
   const ENDPOINT ='localhost:5000'
 
   useEffect(() => { 
-    const { name, room } = queryString.parse(location.search);
+    //const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
 
-    setRoom(room);
-    setName(name)
+    setRoom("private");
+    setName(null);
 
     socket.emit('join', { name, room }, (error) => {
       if(error) {
         alert(error);
       }
     });
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT]);
   
   useEffect(() => {
     socket.on('message', message => {
       setMessages(messages => [ ...messages,message ])  
          
     });
-    socket.on("output message",doc => {
+    socket.on("output data",doc => {
       console.log(doc);
       afterPostMessage(doc);
       // chats.filter((chat)=>{
       //   console.log(chat.message)
       // })
       //console.log(chats)
-     for(let i=0;i<doc.length; i++){
+     for(let i=0;i<doc.length; i++) {
         console.log(doc[0].message)
         let message = {
           text:doc[i].message,
@@ -82,6 +83,7 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
+      <ChatLIst/>
     </div>
   );
 }

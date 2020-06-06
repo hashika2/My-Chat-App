@@ -8,6 +8,7 @@ const assert = require('assert');
 
 const mongoose = require('mongoose');
 const router = require('./router');
+const User = require('./User');
 // const database = require('./dbConnection');
 // database.db();
 
@@ -86,6 +87,12 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }
+  else if(room =="private"){
+    User.find((err,data) =>{
+      console.log(data);
+      return io.emit("output data",data);
+    })
+  }
   else {
     chats.find((err,data) =>{
       console.log(data)
@@ -127,7 +134,7 @@ io.on('connect', (socket) => {
       u = new developers({
         name:user.name,
         message:message
-      })
+      })   
     }
     else {
       u = new chats({
