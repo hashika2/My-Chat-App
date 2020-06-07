@@ -16,6 +16,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   const officers='Officers';
   const clients ='Clients';
   const developers ='Developers';
+  const privateRoom = "Private";
 
   //get email from the link
   const { email } = queryString.parse(location.search);
@@ -75,7 +76,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
           <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
             <button className={'button mt-20'} type="submit">Sign In</button>
           </Link>
-          <Link to="privateChat"><button className={'button mt-20'} type="submit">Private Message</button></Link>
+          <Link to={`/privateChat?name=${email}&room=${privateRoom}`}><button className={'button mt-20'} type="submit">Private Message</button></Link>
           <input style = {{display:'none'}} type="file" onChange = {onChangeHandler} ref = {fileInput => fileInput = fileInput}/>
           <button onClick={(fileInput)=>{fileInput.click()}}>Pick Image</button>
           <button onClick={fielUploadHandler}>Upload</button>

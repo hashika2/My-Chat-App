@@ -17,19 +17,17 @@ let socket;
 const PrivateChat = ({ location,afterPostMessage,chats }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
-  const [users, setUsers] = useState('');
+  const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   //const ENDPOINT = 'https://sleepy-castle-27435.herokuapp.com/'
   const ENDPOINT ='localhost:5000'
 
   useEffect(() => { 
-    //const { name, room } = queryString.parse(location.search);
-
+    const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
-
-    setRoom("private");
-    setName(null);
+    setRoom(room);
+    setName(name);
 
     socket.emit('join', { name, room }, (error) => {
       if(error) {
@@ -51,18 +49,21 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
       // })
       //console.log(chats)
      for(let i=0;i<doc.length; i++) {
-        console.log(doc[0].message)
+        console.log(doc[i].name)
         let message = {
           text:doc[i].message,
           user:doc[i].name
         };
-        setMessages(messages => [ ...messages,message ])  
+        //setMessages(messages => [ ...messages,message ]) 
+        var name = message.user;
+        users.push(name);
       }
+      setUsers(users); 
     })
     
     socket.on("roomData", ({ users }) => {
       console.log("HASHIKA ");
-      setUsers(users);
+      //setUsers(users);
     });
       
 }, []);
@@ -83,7 +84,7 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
-      <ChatLIst/>
+      <ChatLIst users={users}/>
     </div>
   );
 }
