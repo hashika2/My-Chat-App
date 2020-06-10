@@ -48,6 +48,7 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
       //   console.log(chat.message)
       // })
       //console.log(chats)
+      let users = [];    
      for(let i=0;i<doc.length; i++) {
         console.log(doc[i].name)
         let message = {
@@ -56,9 +57,15 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
         };
         //setMessages(messages => [ ...messages,message ]) 
         var name = message.user;
+        
         users.push(name);
       }
-      setUsers(users); 
+      console.log(users);
+      for(let i=0; i<users.length; i++){
+        
+      }
+      setUsers(users);
+      
     })
     
     socket.on("roomData", ({ users }) => {
@@ -76,7 +83,6 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
     }
 
   }
-
   return (
     <div className="outerContainer">
       <div className="container">

@@ -8,7 +8,7 @@ const assert = require('assert');
 
 const mongoose = require('mongoose');
 const router = require('./router');
-const User = require('./User');
+const { User, validate} = require('./User');
 // const database = require('./dbConnection');
 // database.db();
 
@@ -19,11 +19,11 @@ let students = mongoose.model('students',{
   name:String,
   message:String
 });
-let chats = mongoose.model('chats',{
+let chats = mongoose.model('chats',{    
   name:String,
   message:String
 });
-let officers = mongoose.model('officers',{
+let officers = mongoose.model('officers',{    
   name:String,
   message:String      
 });
@@ -51,7 +51,7 @@ app.use(router);
 io.on('connect', (socket) => {  
 
  
-  socket.on('join', ({ name, room }, callback) => {
+  socket.on('join', ({ name, room }, callback) => {   
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
@@ -87,9 +87,9 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }
-  else if(room =="private"){
+  else if(room =="Private"){
     User.find((err,data) =>{
-      console.log(data);
+      console.log(data);   
       return io.emit("output data",data);
     })
   }
@@ -159,7 +159,7 @@ io.on('connect', (socket) => {
       var cursor = db.collection('chats').find();
       cursor.forEach((doc,err) => {
         assert.equal(null,err);
-        resultArray.push(doc);
+        resultArray.push(doc);   
         //console.log(resultArray);
       },()=>{  
         db.close();
