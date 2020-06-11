@@ -15,26 +15,7 @@ const { User, validate} = require('./User');
 const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
 
 //create different model
-let students = mongoose.model('students',{
-  name:String,
-  message:String
-});
-let chats = mongoose.model('chats',{    
-  name:String,
-  message:String
-});
-let officers = mongoose.model('officers',{    
-  name:String,
-  message:String      
-});
-let clients = mongoose.model('clients',{
-  name:String,
-  message:String
-});
-let developers = mongoose.model('developers',{
-  name:String,
-  message:String
-})
+const {students,chats,officers,clients,developers} = require('./rooms/rooms');
 // const mongo = require('mongodb').MongoClient;
 
 //   console.log("connected db")
