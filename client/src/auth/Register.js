@@ -36,13 +36,13 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign Up</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Create Your Account
-      </p>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <div className="container" style={{backgroundColor:"black"}}>
+      <div className="card" style={{marginTop:"20%"}}>
+      <form className='text-center border border-light p-5' onSubmit={e => onSubmit(e)}>
+      <p class="h4 mb-4">Sign Up</p>
         <div className='form-group'>
           <input
+            className="form-control"
             type='text'
             placeholder='Name'
             name='name'
@@ -52,19 +52,17 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
         </div>
         <div className='form-group'>
           <input
+            className="form-control"
             type='email'
             placeholder='Email Address'
             name='email'
             value={email}
             onChange={e => onChange(e)}
           />
-          <small className='form-text'>
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
         </div>
         <div className='form-group'>
           <input
+            className="form-control"
             type='password'
             placeholder='Password'
             name='password'
@@ -74,6 +72,7 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
         </div>
         <div className='form-group'>
           <input
+            className="form-control"
             type='password'
             placeholder='Confirm Password'
             name='password2'
@@ -83,9 +82,11 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
         </div>
         <input type='submit' className='btn btn-primary' value='Register' />
       </form>
-      <p className='my-1'>
-        Already have an account? <Link to='/login'>Sign In</Link>
+      <p className='text-center'>
+        Already have an account? <Link to='/'>Sign In</Link>
       </p>
+      </div>
+      </div>
     </Fragment>
   );
 };

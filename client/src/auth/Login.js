@@ -59,9 +59,10 @@ const Login = ({ login, isAuthenticated,data }) => {
         <div className="card" style={{marginTop:"20%"}}>
       <p>{error}</p>
       <form className='text-center border border-light p-5' onSubmit={e => onSubmit(e)}>
-      <p class="h4 mb-4">Login</p>
+      <p class="h4 mb-4">Sign In</p>
         <div className='form-group'>
           <input
+          className="form-control"
             type='text'
             placeholder='Email Address'
             name='email'
@@ -72,6 +73,7 @@ const Login = ({ login, isAuthenticated,data }) => {
         <div>{emailError}</div>
         <div className='form-group'>
           <input
+          className="form-control"
             type='password'
             placeholder='Password'
             name='password'
