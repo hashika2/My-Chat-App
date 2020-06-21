@@ -21,4 +21,4 @@ let students = mongoose.model('students',{
     message:String
   })
 
-  module.exports = {students,chats,officers,clients,developers}
+  module.exports = { students,chats,officers,clients,developers }
