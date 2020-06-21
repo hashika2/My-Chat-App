@@ -55,12 +55,11 @@ const Login = ({ login, isAuthenticated,data }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign In</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Sign Into Your Account
-      </p>
+      <div className ="container" style={{backgroundColor:"black"}}>
+        <div className="card" style={{marginTop:"20%"}}>
       <p>{error}</p>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='text-center border border-light p-5' onSubmit={e => onSubmit(e)}>
+      <p class="h4 mb-4">Login</p>
         <div className='form-group'>
           <input
             type='text'
@@ -84,9 +83,11 @@ const Login = ({ login, isAuthenticated,data }) => {
         <div>{passwordError}</div>   
         <input type='submit' className='btn btn-primary' value='Login' />
       </form>
-      <p className='my-1'>
+      <p className='text-center'>
         Don't have an account? <Link to='/register'>Sign Up</Link>
       </p>
+      </div>
+      </div>
     </Fragment>
   );
 };

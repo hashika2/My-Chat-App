@@ -61,9 +61,6 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
         users.push(name);
       }
       console.log(users);
-      for(let i=0; i<users.length; i++){
-        
-      }
       setUsers(users);
       
     })
