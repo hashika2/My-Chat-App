@@ -49,19 +49,27 @@ const Chat = ({ location,afterPostMessage,chats }) => {
       //   console.log(chat.message)
       // })
       //console.log(chats)
-     for(let i=0;i<doc.length; i++){
-        console.log(doc[0].message)
+
+    //  for(let i=0;i<doc.length; i++){
+    //     console.log(doc[0].message)
+    //     let message = {
+    //       text:doc[i].message,
+    //       user:doc[i].name
+    //     };
+    //     setMessages(messages => [ ...messages,message ])     
+    //   }
+      doc.map(d=>{
         let message = {
-          text:doc[i].message,
-          user:doc[i].name
-        };
-        setMessages(messages => [ ...messages,message ])  
-      }
+          text:d.message,
+          user:d.name
+        }
+        setMessages(messages => [ ...messages,message ]) 
+      })
     })
     
     socket.on("roomData", ({ users }) => {
       console.log("HASHIKA ");
-      setUsers(users);
+      setUsers(users);    
     });
       
 }, []);

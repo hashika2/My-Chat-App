@@ -4,7 +4,6 @@ import io from "socket.io-client";
 import {afterPostMessage} from '../../../action/postMessage';
 import {connect} from 'react-redux';
 
-import TextContainer from '../../TextContainer/TextContainer';
 import Messages from '../../Messages/Messages';
 import InfoBar from '../../InfoBar/InfoBar';
 import Input from '../../Input/Input';
@@ -85,9 +84,9 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
       <div className="container">
           <InfoBar room={room} />
           <Messages messages={messages} name={name} />
-          <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+          <Input message = {message} setMessage = {setMessage} sendMessage = {sendMessage} />
       </div>
-        <ChatLIst users={users}/>
+        <ChatLIst users = {users}/>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import {roommed} from '../../action/index';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
 import axios from 'axios';
+import {getRoomData} from '../../action/index';
 
 import './Join.css';
 import Axios from 'axios';
@@ -24,6 +25,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
   const onSubmit=(e)=>{
     e.preventDefault();
     roommed({name,room})
+    getRoomData({name,room})
   }
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
@@ -43,6 +45,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
     // })
     
   }
+  
 
   return (
     <Fragment>
