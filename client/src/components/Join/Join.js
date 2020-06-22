@@ -9,7 +9,7 @@ import {getRoomData} from '../../action/index';
 import './Join.css';
 import Axios from 'axios';
 
-const SignIn=({roommed,isAuthenticated,location}) =>{
+const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [selectedImage,setImage] = useState('');
@@ -24,8 +24,8 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
 
   const onSubmit=(e)=>{
     e.preventDefault();
-    roommed({name,room})
-    getRoomData({name,room})
+    //roommed({name,room})
+    getRoomData(room);
   }
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
@@ -53,7 +53,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
       <h1 className="heading">Rooms</h1>
-      <Link  to={`/chat?name=${email}&room=${students}`}>
+      <Link  to={`/chat?name=${email}&room=${students}`} onClick={e => getRoomData(students)}>
           <button className={'button mt-20'} type="submit">Students</button>
       </Link>
       <Link  to={`/chat?name=${email}&room=${officers}`}>
@@ -76,7 +76,7 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
           <div>
             <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(event) => setRoom(event.target.value)} />
           </div>
-          <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
+          <Link onClick={e => (!name || !room) ? e.preventDefault() :  getRoomData(room)} to={`/chat?name=${name}&room=${room}`}>
             <button className={'button mt-20'} type="submit">Sign In</button>
           </Link>
           <Link to={`/privateChat?name=${email}&room=${privateRoom}`}><button className={'button mt-20'} type="submit">Private Message</button></Link>
@@ -94,4 +94,4 @@ const SignIn=({roommed,isAuthenticated,location}) =>{
 const mapStateToProps=state => ({
   isAuthenticated:state.registeredRoom
 })
-export default connect(mapStateToProps,{roommed})(SignIn);
+export default connect(mapStateToProps,{roommed,getRoomData})(SignIn);

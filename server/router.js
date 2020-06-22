@@ -93,7 +93,7 @@ router.post('/login', (req, res) => {
   const password = req.body.password;
   // Find user by email
   User.findOne({ email }).then(user => {
-    // Check for user
+    // Check for user  
     if (!user) {
       error.email = 'User not found';
       return res.status(404).json(error);
@@ -125,6 +125,11 @@ router.post('/login', (req, res) => {
     });
   });
 });//
+
+router.get('/roomData',(req,res) => {
+  console.log(req.body);
+  res.send({data:"data"})
+})
 
 module.exports = router;
 

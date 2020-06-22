@@ -51,10 +51,17 @@ export const login=({email,password}) => async dispatch => {
     })
     
 }
-export const getRoomData = ({room}) => async dispatch => {
-    const res = await axios.get("",room);
+export const getRoomData = (room) => async dispatch => {
+    console.log(room);
+    const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    };
+      const body = {room}
+    const res = await axios.get("http://localhost:5000/api/user/roomData",body,config);
     dispatch({
         type:"GET_ROOM_DATA",
-        payload: res.data
+        payload: res.data     
     });
 }
