@@ -25,7 +25,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
   const onSubmit=(e)=>{
     e.preventDefault();
     //roommed({name,room})
-    getRoomData(room);
+    //getRoomData(room);
   }
   if(isAuthenticated){
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
@@ -56,7 +56,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
       <Link  to={`/chat?name=${email}&room=${students}`} onClick={e => getRoomData(students)}>
           <button className={'button mt-20'} type="submit">Students</button>
       </Link>
-      <Link  to={`/chat?name=${email}&room=${officers}`}>
+      <Link  to={`/chat?name=${email}&room=${officers}`}  onClick={e => getRoomData(officers)} >
           <button className={'button mt-20'} type="submit">Officers</button>
       </Link>
       <Link  to={`/chat?name=${email}&room=${clients}`}>

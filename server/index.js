@@ -92,7 +92,7 @@ io.on('connect', (socket) => {
 
     callback();
     let u = null;
-    //save messages to db
+    //save messages to db  
     if(room == 'Officers'){
        u = new officers({
         name:user.name,

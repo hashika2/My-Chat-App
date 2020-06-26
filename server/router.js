@@ -30,9 +30,9 @@ const mongoose = require('mongoose');
 router.post('/',upload.single('profileImage'), async (req, res) => {
   console.log(req.file);
   console.log(req.body)
-  const {error}=validate(req.body);
+  const {error} = validate(req.body);
   
-  //if(error) return res.status(400).send(error.details[0].message);
+  if(error) return res.status(400).json(error.details[0].message);
 
   let user = await User.findOne({email:req.body.email})
   console.log(user)
@@ -84,10 +84,10 @@ router.post('/',upload.single('profileImage'), async (req, res) => {
 
 
 router.post('/login', (req, res) => {
-  //const { errors, isValid } = validateLoginInput(req.body);
-  //const {error} = validate(req.body);
+  //const { errors } = validateUser(req.body);
+  const {error} = validate(req.body);
   // Check Validation
-  //if(error) return res.status(400).send(error.details[0].message);
+  if(error) return res.status(400).json(error.details[0].message);
   console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;

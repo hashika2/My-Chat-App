@@ -8,8 +8,8 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case 'ALERTMESSAGE':
-      return {...state, alert_data : payload};
+    case 'SET_ALERT':
+      return {...state, alert_data : payload};   
     case 'REMOVE_ALERT':
       return state.filter(alert => alert.id !== payload);
     default:

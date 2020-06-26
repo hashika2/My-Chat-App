@@ -10,13 +10,14 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Register from './auth/Register';
 import Login from './auth/Login';
 import PrivateChat from './components/Chat/PrivateChat/PrivateChat';
+import Alert from './components/Layout/Alert';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Router>
-
+    <Provider store={store}>     
+      <Router>        
         <Route path="/" exact component={Login} />
+        <Alert/>
         <Route path="/register" exact component={Register} />
         <PrivateRoute path="/join" exact component={Join} />
         <Route path="/chat" exact component={Chat} />
