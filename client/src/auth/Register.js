@@ -70,7 +70,7 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
             onChange={e => onChange(e)}
           />
         </div>
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <input
             className="form-control"
             type='password'
@@ -79,8 +79,8 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
             value={password2}
             onChange={e => onChange(e)}
           />
-        </div>
-        <input type='submit' className='btn btn-primary' value='Register' />
+        </div> */}
+        <input type='submit' className='btn btn-success' value='Register' />
       </form>
       <p className='text-center'>
         Already have an account? <Link to='/'>Sign In</Link>

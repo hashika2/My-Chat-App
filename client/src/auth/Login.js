@@ -83,7 +83,7 @@ const Login = ({ login, isAuthenticated,data }) => {
           />
         </div>
         <div>{passwordError}</div>   
-        <input type='submit' className='btn btn-primary' value='Login' />
+        <input type='submit' className='btn btn-success' value='Login' />
       </form>
       <p className='text-center'>
         Don't have an account? <Link to='/register'>Sign Up</Link>

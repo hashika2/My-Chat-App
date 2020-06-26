@@ -1,5 +1,6 @@
 import axios from 'axios';
-import{ setAlert} from './alert';
+//import{ setAlert} from './alert';
+import { v4 as uuidv4 } from 'uuid';
 
 export const roommed = ({name,room}) => async dispatch=> {
     const res = {
@@ -52,8 +53,9 @@ export const login=({email,password}) => async dispatch => {
         })
     }catch(err){
         const error = err.response.data.error;
+        console.log("error"+error)
         if(error){
-            error.forEach(error => { dispatch(setAlert(error.msg,'danger'))});
+            error.forEach(error => { dispatch(setAlert(error,'danger'))});
         }
         dispatch({
             type:"LOGIN_FAIL"
@@ -76,3 +78,14 @@ export const getRoomData = (room) => async dispatch => {
         payload: res.data     
     });
 }
+
+export const setAlert = (msg, alertType, timeout = 5000) => dispatch => {
+    const id = uuidv4();
+    console.log(msg)
+    dispatch({
+      type:' SET_ALERT',
+      payload: { msg, alertType, id }
+    });
+  
+    setTimeout(() => dispatch({ type: 'REMOVE_ALERT', payload: id }), timeout);
+  };

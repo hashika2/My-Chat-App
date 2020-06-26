@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage});
 const mongoose = require('mongoose');
-
+const { check, validationResult } = require("express-validator");
 
 //connect with atlas
 
@@ -39,8 +39,8 @@ router.post('/',upload.single('profileImage'), async (req, res) => {
   if(user){
    return(
      res.status(400).send('User already exist')
-     )
-   }
+   )
+  }
 
   //save user on the database
   user = new User({
@@ -83,11 +83,23 @@ router.post('/',upload.single('profileImage'), async (req, res) => {
 );
 
 
-router.post('/login', (req, res) => {
+router.post('/login',
+[
+  check("email", "Please include a valid email").isEmail(),
+  check("password","password is required").exists()
+],
+(req, res) => {
+  console.log(req.body);
   //const { errors } = validateUser(req.body);
-  const {error} = validate(req.body);
+  const  error = validationResult(req);
+  if (!error.isEmpty()) {
+    console.log("epmty")
+    return res.status(400).json({ errors: error.array() });
+  }
+  //const {error} = validate(req.body);
   // Check Validation
-  if(error) return res.status(400).json(error.details[0].message);
+  //if(error) return res.status(400).json(error.details[0].message);
+
   console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;
@@ -95,6 +107,7 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
     // Check for user  
     if (!user) {
+      console.log("userot found")
       error.email = 'User not found';
       return res.status(404).json(error);
     }
