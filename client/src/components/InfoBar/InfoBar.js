@@ -12,7 +12,7 @@ const InfoBar = ({ room ,getData}) => (
       <h3>{room}</h3>
     </div>
     <div className="rightInnerContainer">
-      <input type="submit" value="getData" onKeyPress={event => event.key === 'Enter' ? getData(event) : null}/>
+      <input type="submit" value="getData" onClick={e => getData(e)}/>
       <a href="/"><img src={closeIcon} alt="close icon" /></a>
     </div>
   </div>

@@ -42,30 +42,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
     socket.on('message', message => {
       setMessages(messages => [ ...messages,message ])  
     });
-    socket.on("output message",doc => {
-      console.log(doc);
-      afterPostMessage(doc);
-      // chats.filter((chat)=>{
-      //   console.log(chat.message)
-      // })
-      //console.log(chats)
-
-    //  for(let i=0;i<doc.length; i++){
-    //     console.log(doc[0].message)
-    //     let message = {
-    //       text:doc[i].message,
-    //       user:doc[i].name
-    //     };
-    //     setMessages(messages => [ ...messages,message ])     
-    //   }
-      doc.map(d=>{
-        let message = {
-          text:d.message,
-          user:d.name
-        }
-        setMessages(messages => [ ...messages,message ]) 
-      })
-    })
+    
     
     socket.on("roomData", ({ users }) => {
       console.log("HASHIKA ");
@@ -73,6 +50,19 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
     });
       
 }, []);
+useEffect(()=>{
+  socket.on("output message",doc => {
+    console.log(doc);
+    afterPostMessage(doc);
+    doc.map(d=>{
+      let message = {
+        text:d.message,
+        user:d.name
+      }
+      setMessages(messages => [ ...messages,message ]) 
+    })
+  })
+},[])
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -84,7 +74,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
   }
   const getData=(event)=>{
     event.preventDefault();
-    console.log("test")
+    
   }
 
   return (
