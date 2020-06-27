@@ -50,7 +50,7 @@ io.on('connect', (socket) => {
   if(room =="Students"){
     students.find((err,data)=>{
       console.log(data)
-      return io.emit("output message",data);   
+      return io.emit("output message",data);      
     })
   }
   else if(room =="Officers"){
@@ -84,7 +84,6 @@ io.on('connect', (socket) => {
   });
 
 
-
   socket.on('sendMessage', (message,room, callback) => {
     const user = getUser(socket.id);
 
@@ -92,7 +91,7 @@ io.on('connect', (socket) => {
 
     callback();
     let u = null;
-    //save messages to db  
+    //save messages to db    
     if(room == 'Officers'){
        u = new officers({
         name:user.name,
@@ -133,25 +132,6 @@ io.on('connect', (socket) => {
       })  
          
     }); 
-     //get all data
-    var resultArray = [];
-    mongoose.connect(url,(err,db) => {
-      assert.equal(null,err);
-      var cursor = db.collection('chats').find();
-      cursor.forEach((doc,err) => {
-        assert.equal(null,err);
-        resultArray.push(doc);   
-        //console.log(resultArray);
-      },()=>{  
-        db.close();
-        return io.emit("output message",resultArray); 
-      });
-    })  
-
-    // chatuser.find({message},(err,dbData)=>{
-      
-    //   console.log(dbData)
-    // });
 
   });
 

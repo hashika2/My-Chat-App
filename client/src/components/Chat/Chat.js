@@ -8,12 +8,12 @@ import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
-
+import { getRoomData } from '../../action/index';
 import './Chat.css';
 
 let socket;
 
-const Chat = ({ location,afterPostMessage,chats }) => {
+const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -29,6 +29,7 @@ const Chat = ({ location,afterPostMessage,chats }) => {
 
     setRoom(room);
     setName(name)
+    getRoomData(room);
 
     socket.emit('join', { name, room }, (error) => {
       if(error) {
@@ -40,7 +41,6 @@ const Chat = ({ location,afterPostMessage,chats }) => {
   useEffect(() => {
     socket.on('message', message => {
       setMessages(messages => [ ...messages,message ])  
-         
     });
     socket.on("output message",doc => {
       console.log(doc);
@@ -82,11 +82,15 @@ const Chat = ({ location,afterPostMessage,chats }) => {
     }
 
   }
+  const getData=(event)=>{
+    event.preventDefault();
+    console.log("test")
+  }
 
   return (
     <div className="outerContainer">
       <div className="container">
-          <InfoBar room={room} />
+          <InfoBar room={room} getData={getData} />
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
@@ -94,8 +98,9 @@ const Chat = ({ location,afterPostMessage,chats }) => {
     </div>
   );
 }
-const mapStateToProps=state=>({
-  chats:state.postMessage.chats
+const mapStateToProps=state => ({
+  chats:state.postMessage.chats,
+  chatData:state.getRoomData.data
 })
 
-export default connect(mapStateToProps,{afterPostMessage})(Chat);
+export default connect(mapStateToProps,{afterPostMessage, getRoomData})(Chat);

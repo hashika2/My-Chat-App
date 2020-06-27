@@ -21,6 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage});
 const mongoose = require('mongoose');
 const { check, validationResult } = require("express-validator");
+const {students,chats,officers,clients,developers} = require('./rooms/rooms');
 
 //connect with atlas
 
@@ -141,7 +142,41 @@ router.post('/login',
 
 router.get('/roomData',(req,res) => {
   console.log(req.body);
-  res.send({data:"data"})
+  const room = req.body;     
+  if(room =="Students"){
+    students.find((err,data)=>{
+      console.log(data)
+      res.send({data:data})  
+    })
+  }
+  else if(room =="Officers"){
+    officers.find((err,data) =>{
+      res.send({data:data})  
+    })
+  }
+  else if(room =="Clients"){      
+    clients.find((err,data) =>{
+      res.send({data:data})  
+    })
+  }
+  else if(room =="Developers"){
+    developers.find((err,data) =>{
+      res.send({data:data})  
+    })
+  }
+  else if(room =="Private"){
+    User.find((err,data) =>{
+      console.log(data);   
+      res.send({data:data})  
+    })
+  }
+  else {
+    chats.find((err,data) =>{
+      console.log(data)
+      res.send({data:data})  
+    })
+  }
+ 
 })
 
 module.exports = router;

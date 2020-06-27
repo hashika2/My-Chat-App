@@ -7,13 +7,14 @@ import {connect} from 'react-redux';
 import Messages from '../../Messages/Messages';
 import InfoBar from '../../InfoBar/InfoBar';
 import Input from '../../Input/Input';
+import {getRoomData} from '../../../action/index';
 
 import './../Chat.css';
 import ChatLIst from "./ChatList";
 
 let socket;
 
-const PrivateChat = ({ location,afterPostMessage,chats }) => {
+const PrivateChat = ({ location,afterPostMessage,chats ,getRoomData}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState([]);
@@ -27,6 +28,7 @@ const PrivateChat = ({ location,afterPostMessage,chats }) => {
     socket = io(ENDPOINT);
     setRoom(room);
     setName(name);
+    getRoomData(room);
 
     socket.emit('join', { name, room }, (error) => {
       if(error) {
@@ -94,4 +96,4 @@ const mapStateToProps=state=>({
   chats:state.postMessage.chats
 })
 
-export default connect(mapStateToProps,{afterPostMessage})(PrivateChat);
+export default connect(mapStateToProps,{afterPostMessage,getRoomData})(PrivateChat);

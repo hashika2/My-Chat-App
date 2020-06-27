@@ -67,7 +67,7 @@ export const login=({email,password}) => async dispatch => {
 export const getRoomData = (room) => async dispatch => {
     console.log(room);
     const config = {
-        headers: {
+        headers: {  
           'Content-Type': 'application/json'
         }
     };

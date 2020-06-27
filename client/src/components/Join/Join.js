@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment,useEffect } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import {roommed} from '../../action/index';
 import {connect} from 'react-redux';
@@ -7,20 +7,20 @@ import axios from 'axios';
 import {getRoomData} from '../../action/index';
 
 import './Join.css';
-import Axios from 'axios';
 
 const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [selectedImage,setImage] = useState('');
-  const students='Students';
-  const officers='Officers';
-  const clients ='Clients';
-  const developers ='Developers';
+  const students = 'Students';
+  const officers = 'Officers';
+  const clients = 'Clients';
+  const developers = 'Developers';
   const privateRoom = "Private";
 
   //get email from the link
   const { email } = queryString.parse(location.search);
+
 
   const onSubmit=(e)=>{
     e.preventDefault();
