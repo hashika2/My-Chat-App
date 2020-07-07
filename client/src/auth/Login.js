@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../action/index';
 
-const Login = ({ login, isAuthenticated,data }) => {
+const Login = ({ login, isAuthenticated }) => {
   
   const [formData, setFormData] = useState({
     email: '',
