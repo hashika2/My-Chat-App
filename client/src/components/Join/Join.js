@@ -53,7 +53,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
       <h1 className="heading">Rooms</h1>
-      <Link  to={`/chat?name=${email}&room=${students}`} onClick={e => getRoomData(students)}>
+      <Link  to={`/chat?name=${email}&room=${students}`}>
           <button className={'button mt-20'} type="submit">Students</button>
       </Link>
       <Link  to={`/chat?name=${email}&room=${officers}`}  onClick={e => getRoomData(officers)} >

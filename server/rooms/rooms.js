@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 let students = mongoose.model('students',{
-    name:String,
+    _id:Schema.Types.ObjectId,
+    name:[{type:Schema.Types.ObjectId, ref:"users"}],
     message:String
   });
   let chats = mongoose.model('chats',{    

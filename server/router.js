@@ -82,6 +82,43 @@ router.post('/',upload.single('profileImage'), async (req, res) => {
   // })
   }
 );
+router.post('/',
+(req, res) => {
+  console.log(req.body);
+  //const { errors } = validateUser(req.body);
+  const  error = validationResult(req);
+  if (!error.isEmpty()) {
+    console.log("empty")
+    return res.status(400).json({ errors: error.array() });
+  }
+  //const {error} = validate(req.body);
+  // Check Validation
+  //if(error) return res.status(400).json(error.details[0].message);
+
+  console.log(req.body)
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  // Find user by email
+  const user = new User({
+      name:name,
+      email:email,
+      password:password
+  }) 
+  user.save();
+         
+    // User Matched
+    const payload = { id: user.id, name: user.name }; // Create JWT Payload
+    // Sign Token
+    const token=jwt.sign(
+      payload,
+      "jwtPrivateKey",
+      { expiresIn: 3600 }
+    );
+    console.log(token)
+    res.send(token)
+     
+  });
 
 
 router.post('/login',
@@ -94,7 +131,7 @@ router.post('/login',
   //const { errors } = validateUser(req.body);
   const  error = validationResult(req);
   if (!error.isEmpty()) {
-    console.log("epmty")
+    console.log("empty")
     return res.status(400).json({ errors: error.array() });
   }
   //const {error} = validate(req.body);

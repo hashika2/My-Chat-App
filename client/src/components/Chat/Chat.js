@@ -46,7 +46,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
     
     
     socket.on("roomData", ({ users }) => {
-      console.log("HASHIKA ");
+      console.log("users are");
       setUsers(users);    
     });
       
@@ -85,7 +85,7 @@ useEffect(()=>{
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
-      <TextContainer users={users}/>
+      <TextContainer users = {users}/>
     </div>
   );
 }
