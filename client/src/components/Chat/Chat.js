@@ -21,6 +21,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
   const [messages, setMessages] = useState([]);
   //const ENDPOINT = 'https://sleepy-castle-27435.herokuapp.com/'
   const ENDPOINT ='localhost:5000'
+  //const ENDPOINT= 'https://git.heroku.com/chat-app-my.git';
 
   useEffect(() => { 
     const { name, room } = queryString.parse(location.search);

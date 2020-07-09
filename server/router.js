@@ -1,6 +1,6 @@
-const config=require('config');
-const jwt=require('jsonwebtoken')
-const bcrypt=require('bcryptjs')
+const config = require('config');
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const _ = require('lodash')
 const {User, validate} = require('./User');
 //const mongoose = require('mongoose');
@@ -115,7 +115,7 @@ router.post('/login',
 
     // Check Password
     bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
+      if (isMatch) {    
         // User Matched
         const payload = { id: user.id, name: user.name }; // Create JWT Payload
         // Sign Token
