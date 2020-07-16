@@ -19,11 +19,6 @@ const Login = ({ login, isAuthenticated }) => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    useEffect(()=>{
-      setTimeout(()=>{
-        alert("set time out");
-      },10000)
-    },[])
 
   // const validate=()=>{
   //   let emailError = "";
