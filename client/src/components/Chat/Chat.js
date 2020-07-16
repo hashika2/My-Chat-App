@@ -50,7 +50,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
       setUsers(users);    
     });
       
-}, []);
+  }, []);
 useEffect(()=>{
   socket.on("output message",doc => {
     console.log(doc);

@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../action/index';
+import IdleTimeOut from '../components/timeoutSession/IdleTimeOut';
 
 const Login = ({ login, isAuthenticated }) => {
   
@@ -12,11 +13,17 @@ const Login = ({ login, isAuthenticated }) => {
   });
   const [ emailError,setEmailError] = useState('');
   const [passwordError,setPasswordError] = useState('');
-  var error ="";
+  var error = "";
   const { email, password } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    useEffect(()=>{
+      setTimeout(()=>{
+        alert("set time out");
+      },10000)
+    },[])
 
   // const validate=()=>{
   //   let emailError = "";
@@ -55,6 +62,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
+      <IdleTimeOut/>
       <div className ="container" style={{backgroundColor:"black"}}>
         <div className="card" style={{marginTop:"20%"}}>
       <p>{error}</p>

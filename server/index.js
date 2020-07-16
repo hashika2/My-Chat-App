@@ -48,12 +48,6 @@ io.on('connect', (socket) => {
 
   //get data from db and send to font realtime
   if(room =="Students"){   
-    // students.find({name:"marks"}).populate('_id').
-    // exec(function (err, story) {
-    //   if (err) return handleError(err);
-    //   console.log('The author is %s', story.name);   
-    //   // prints "The author is Ian Fleming"
-    // });
     students.find((err,data)=>{
       console.log(data)
       return io.emit("output message",data);      
