@@ -110,9 +110,9 @@ router.post('/',
     // User Matched
     const payload = { id: user.id, name: user.name }; // Create JWT Payload
     // Sign Token
-    const token=jwt.sign(
+    const token = jwt.sign(
       payload,
-      "jwtPrivateKey",
+      process.env.secretKey,
       { expiresIn: 3600 }
     );
     console.log(token)

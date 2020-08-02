@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-
 const IdleTimeOut = () =>{
     const idleTimerRef = useRef(null);
     const [isLoggedIn,setIsLoggedIn] = useState(true);
@@ -42,4 +41,5 @@ const IdleTimeOut = () =>{
         </div>
     )
 }
+
 export default IdleTimeOut;

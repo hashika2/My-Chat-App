@@ -17,7 +17,6 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
   const onSubmit = async e => {
     e.preventDefault();
     // if (password !== password2) {
@@ -28,7 +27,6 @@ const Register = ({ register, isAuthenticated ,setAlert}) => {
     // }
     register({ name, email, password });
   };
-
   if (isAuthenticated) {
     console.log(isAuthenticated)
     return <Redirect to='/join' />;

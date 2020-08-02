@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import io from "socket.io-client";
 import {afterPostMessage} from '../../action/postMessage';
 import {connect} from 'react-redux';
-
 import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
@@ -25,9 +24,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
 
   useEffect(() => { 
     const { name, room } = queryString.parse(location.search);
-
     socket = io(ENDPOINT);
-
     setRoom(room);
     setName(name)
     getRoomData(room);
@@ -43,27 +40,25 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
     socket.on('message', message => {
       setMessages(messages => [ ...messages,message ])  
     });
-    
-    
     socket.on("roomData", ({ users }) => {
       console.log("users are");
       setUsers(users);    
-    });
-      
+    });     
   }, []);
-useEffect(()=>{
-  socket.on("output message",doc => {
-    console.log(doc);
-    afterPostMessage(doc);
-    doc.map(d=>{
-      let message = {
-        text:d.message,
-        user:d.name
-      }
-      setMessages(messages => [ ...messages,message ]) 
+
+  useEffect(() => {
+    socket.on("output message",doc => {
+      console.log(doc);
+      afterPostMessage(doc);
+      doc.map(d=>{
+        let message = {
+          text:d.message,
+          user:d.name
+        }
+        setMessages(messages => [ ...messages,message ]) 
+      })
     })
-  })
-},[])
+  },[])
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -71,11 +66,10 @@ useEffect(()=>{
     if(message) {
       socket.emit('sendMessage', message,room, () => setMessage(''));
     }
-
   }
-  const getData=(event)=>{
-    event.preventDefault();
-    
+
+  const getData=(event) => {
+    event.preventDefault();   
   }
 
   return (
