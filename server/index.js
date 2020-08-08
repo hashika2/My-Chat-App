@@ -27,7 +27,8 @@ io.on('connect', (socket) => {
     socket.join(user.room);    
     socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-    io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+    // io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+    socket.emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
 
   //get data from db and send to font realtime
   if(room =="Students"){   
@@ -95,7 +96,7 @@ io.on('connect', (socket) => {
     u.save((error,doc) => {   
       if(error) return res.json({success:false});
 
-      // chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
+      // chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{  
       //   console.log(doc)
       //   return io.emit("output message",doc); 
       // })           
