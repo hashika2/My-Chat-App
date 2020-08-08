@@ -19,17 +19,17 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage:storage});
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');   
 const { check, validationResult } = require("express-validator");
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
-
+   
 //connect with atlas
 
 
 
 //register new user
-router.post('/',upload.single('profileImage'), async (req, res) => {
-  console.log(req.file);
+router.post('/',upload.single('image'), async (req, res) => {
+  console.log(req.file);    
   console.log(req.body)
   const {error} = validate(req.body);
   

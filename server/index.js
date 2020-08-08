@@ -49,7 +49,6 @@ io.on('connect', (socket) => {
   //get data from db and send to font realtime
   if(room =="Students"){   
     students.find((err,data)=>{
-      console.log(data)
       return io.emit("output message",data);      
     })
   }
@@ -70,13 +69,12 @@ io.on('connect', (socket) => {
   }
   else if(room =="Private"){
     User.find((err,data) =>{
-      console.log(data);   
+      //console.log(data);   
       return io.emit("output data",data);
     })
   }
   else {
     chats.find((err,data) =>{
-      console.log(data)
       return io.emit("output message",data);
     })
   }
@@ -122,14 +120,13 @@ io.on('connect', (socket) => {
         message:message
       })
     }
-    u.save((error,doc) => {    
-      console.log(doc.message);
+    u.save((error,doc) => {   
       if(error) return res.json({success:false});
 
-      chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
-        //console.log(doc)
-        //return io.emit("output message",doc); 
-      })  
+      // chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{
+      //   console.log(doc)
+      //   return io.emit("output message",doc); 
+      // })  
          
     }); 
 

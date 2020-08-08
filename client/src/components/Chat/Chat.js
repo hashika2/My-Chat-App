@@ -41,7 +41,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
       setMessages(messages => [ ...messages,message ])  
     });
     socket.on("roomData", ({ users }) => {
-      console.log("users are");
+      console.log("users");
       setUsers(users);    
     });     
   }, []);
@@ -51,13 +51,15 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
       console.log(doc);
       afterPostMessage(doc);
       doc.map(d=>{
-        let message = {
+        var message = {
           text:d.message,
           user:d.name
         }
+        console.log(message.user)
         setMessages(messages => [ ...messages,message ]) 
       })
     })
+    
   },[])
 
   const sendMessage = (event) => {
@@ -67,11 +69,10 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
       socket.emit('sendMessage', message,room, () => setMessage(''));
     }
   }
-
   const getData=(event) => {
     event.preventDefault();   
   }
-
+  
   return (
     <div className="outerContainer">
       <div className="container">

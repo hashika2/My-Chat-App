@@ -29,7 +29,7 @@ const TextContainer = ({ users }) => (
             </div>
           </div>
         )
-        : null
+        : console.log("no users")
     }
   </div>
 );
