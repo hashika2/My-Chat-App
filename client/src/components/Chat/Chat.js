@@ -11,7 +11,6 @@ import { getRoomData } from '../../action/index';
 import './Chat.css';
 
 let socket;
-
 const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
@@ -48,14 +47,12 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
 
   useEffect(() => {
     socket.on("output message",doc => {
-      console.log(doc);
       afterPostMessage(doc);
       doc.map(d=>{
         var message = {
           text:d.message,
           user:d.name
         }
-        console.log(message.user)
         setMessages(messages => [ ...messages,message ]) 
       })
     })
@@ -64,7 +61,6 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
 
   const sendMessage = (event) => {
     event.preventDefault();
-
     if(message) {
       socket.emit('sendMessage', message,room, () => setMessage(''));
     }
