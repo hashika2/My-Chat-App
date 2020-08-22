@@ -24,9 +24,6 @@ const { check, validationResult } = require("express-validator");
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
    
 //connect with atlas
-
-
-
 //register new user
 router.post('/',upload.single('image'), async (req, res) => {
   console.log(req.file);    
@@ -49,13 +46,10 @@ router.post('/',upload.single('image'), async (req, res) => {
     email:req.body.email,
     password:req.body.password
   });
-  //console.log(user.email)
-
-  //set hash password
+ //set hash password
   const salt=await bcrypt.genSalt(10);
   user.password=await bcrypt.hash(user.password,salt);
-
-  //user =new user()
+ //user =new user()
   await user.save();
   const payload={
     user:{
