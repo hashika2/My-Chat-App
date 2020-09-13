@@ -7,7 +7,7 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const assert = require('assert');
 const mongoose = require('mongoose');
 const router = require('./router');
-const { User, validate} = require('./User');
+const { User, validate } = require('./User');
 const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
 //create different model
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
@@ -19,8 +19,8 @@ const io = socketio(server);
 app.use(cors());
 app.use(router);       
 
-io.on('connect', (socket) => {  
-  socket.on('join', ({ name, room }, callback) => {   
+io.on('connect', (socket) => {
+  socket.on('join', ({ name, room }, callback) => { 
     const { error, user } = addUser({ id: socket.id, name, room });
         
     if(error) return callback(error);   
@@ -40,7 +40,7 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }else if(room =="Clients"){       
-    clients.find((err,data) =>{
+    clients.find((err,data) => {
       return io.emit("output message",data);
     })
   }else if(room =="Developers"){
@@ -48,7 +48,7 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }else if(room =="Private"){
-    User.find((err,data) =>{
+    User.find((err,data) => {
       return io.emit("output data",data);
     })
   }
