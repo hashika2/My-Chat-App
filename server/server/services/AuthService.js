@@ -1,7 +1,10 @@
 const { User } = require('../../User');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const database = require ('../../dbConnection');
+require("dotenv").config();
 
-const AuthService = (name,email,password) => {
+database.db();
+const AuthService = (name,email,password,res) => {
     const user = new User({
         name:name,
         email:email,
@@ -14,10 +17,11 @@ const AuthService = (name,email,password) => {
     // Sign Token
     const token = jwt.sign(
       payload,
-      process.env.secretKey,
+      process.env.JWT_KEY,
       { expiresIn: 3600 }
     );
+    // return console.log("hashika")
    return res.send(token);   
 }
 
-export {AuthService};
+module.exports = AuthService;

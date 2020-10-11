@@ -73,6 +73,7 @@ router.post('/',upload.single('image'), async (req, res) => {
   // })
   }
 );
+
 router.post('/',(req, res) => {
   //const { errors } = validateUser(req.body);
   const  error = validationResult(req);

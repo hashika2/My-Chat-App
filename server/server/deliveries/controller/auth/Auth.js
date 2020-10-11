@@ -1,4 +1,4 @@
-import { AuthService } from '../../../services/AuthService';
+const  AuthService  = require('../../../services/AuthService');
 const { check, validationResult } = require("express-validator");
 
 const Auth = (req,res) => {
@@ -10,7 +10,7 @@ const Auth = (req,res) => {
     }
 
     const {name,email,password} = req.body;
-    const authService = AuthService(name,email,password);
+    const authService = AuthService(name,email,password,res);
     return authService;
 }
-export { Auth}
+module.exports = Auth;

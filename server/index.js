@@ -6,7 +6,8 @@ const chatUser = require('./chatUser');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const assert = require('assert');
 const mongoose = require('mongoose');
-const router = require('./router');
+// const router = require('./router');
+const router = require('../server/server/deliveries/controller/auth/index');
 const { User, validate } = require('./User');
 const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
 //create different model
