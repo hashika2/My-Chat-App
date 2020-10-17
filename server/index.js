@@ -6,8 +6,9 @@ const chatUser = require('./chatUser');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const assert = require('assert');
 const mongoose = require('mongoose');
-const router = require('./router');
-const { User, validate} = require('./User');
+// const router = require('./router');
+const router = require('../server/server/deliveries/controller/auth/index');
+const { User, validate } = require('../server/server/shared/database/entities/User');
 const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
 //create different model
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
@@ -19,16 +20,16 @@ const io = socketio(server);
 app.use(cors());
 app.use(router);       
 
-io.on('connect', (socket) => {  
-  socket.on('join', ({ name, room }, callback) => {   
-    const { error, user } = addUser({ id: socket.id, name, room });    
-
+io.on('connect', (socket) => {
+  socket.on('join', ({ name, room }, callback) => { 
+    const { error, user } = addUser({ id: socket.id, name, room });
+        
     if(error) return callback(error);   
     socket.join(user.room);    
     socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-    // io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-    socket.emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
+    io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+    //socket.emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
 
   //get data from db and send to font realtime
   if(room =="Students"){   
@@ -39,8 +40,8 @@ io.on('connect', (socket) => {
     officers.find((err,data) => {
       return io.emit("output message",data);
     })
-  }else if(room =="Clients"){      
-    clients.find((err,data) =>{
+  }else if(room =="Clients"){       
+    clients.find((err,data) => {
       return io.emit("output message",data);
     })
   }else if(room =="Developers"){
@@ -48,7 +49,7 @@ io.on('connect', (socket) => {
       return io.emit("output message",data);
     })
   }else if(room =="Private"){
-    User.find((err,data) =>{
+    User.find((err,data) => {
       return io.emit("output data",data);
     })
   }

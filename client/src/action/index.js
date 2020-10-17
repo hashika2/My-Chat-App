@@ -12,13 +12,14 @@ export const roommed = ({name,room}) => async dispatch=> {
         payload:res
     })
 }
+
 export const register=({name,email,password}) => async dispatch => {
     console.log(email)
     const config = {
         headers: {
           'Content-Type': 'application/json'
         }
-      };
+    };
     const body = {
         name,email,password
     }
@@ -30,13 +31,15 @@ export const register=({name,email,password}) => async dispatch => {
     })
     alertData(res.data);
 }
- const alertData = (data)=>async dispatch => {
+
+const alertData = (data)=>async dispatch => {
      console.log("data");
         dispatch({
             type:"ALERTMESSAGE",
             payload:data
         })
-    }
+}
+
 export const login=({email,password}) => async dispatch => {
     const config = {
         headers: {

@@ -40,7 +40,7 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
       setMessages(messages => [ ...messages,message ])  
     });
     socket.on("roomData", ({ users }) => {
-      console.log("users");
+      console.log(users);
       setUsers(users);    
     });     
   }, []);

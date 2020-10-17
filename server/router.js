@@ -2,13 +2,14 @@ const config = require('config');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const _ = require('lodash')
-const {User, validate} = require('./User');
-//const mongoose = require('mongoose');
+const {User, validate} = require('../server/server/shared/database/entities/User');
 const express = require('express');
 const router = express.Router();
-const database =require ('./dbConnection')
-database.db();
+const database = require ('./dbConnection')
 const multer = require('multer');
+const mongoose = require('mongoose');   
+
+database.db();
 const storage = multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'./uploads')
@@ -19,24 +20,17 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage:storage});
-const mongoose = require('mongoose');   
 const { check, validationResult } = require("express-validator");
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
    
 //connect with atlas
-
-
-
 //register new user
 router.post('/',upload.single('image'), async (req, res) => {
-  console.log(req.file);    
-  console.log(req.body)
   const {error} = validate(req.body);
   
   if(error) return res.status(400).json(error.details[0].message);
 
   let user = await User.findOne({email:req.body.email})
-  console.log(user)
   if(user){
    return(
      res.status(400).send('User already exist')
@@ -49,13 +43,10 @@ router.post('/',upload.single('image'), async (req, res) => {
     email:req.body.email,
     password:req.body.password
   });
-  //console.log(user.email)
-
-  //set hash password
+ //set hash password
   const salt=await bcrypt.genSalt(10);
   user.password=await bcrypt.hash(user.password,salt);
-
-  //user =new user()
+ //user =new user()
   await user.save();
   const payload={
     user:{
@@ -82,9 +73,8 @@ router.post('/',upload.single('image'), async (req, res) => {
   // })
   }
 );
-router.post('/',
-(req, res) => {
-  console.log(req.body);
+
+router.post('/',(req, res) => {
   //const { errors } = validateUser(req.body);
   const  error = validationResult(req);
   if (!error.isEmpty()) {
