@@ -1,8 +1,8 @@
 const  {RegisterService,LoginService}  = require('../../../services/AuthService');
 const { check, validationResult } = require("express-validator");
+const {validateLoginAttributes} = require('./loginAttributesValidation')
 
 const Register = (req,res) => {
-    // const { errors } = validateUser(req.body);
     const  error = validationResult(req);
     if (!error.isEmpty()) {
       return res.status(400).json({ errors: error.array() });
@@ -14,14 +14,12 @@ const Register = (req,res) => {
 }
 
 const Login = (req,res) => {
-  // const { errors } = validateUser(req.body);
-  const  error = validationResult(req);
-  if (!error.isEmpty()) {
-    console.log("empty")
-    return res.status(400).json({ errors: error.array() });
+  const { email,password } = req.body;
+  const validateResult = validateLoginAttributes({email,password})
+  if (validateResult.error) {
+    return res.status(400).json({ error: validateResult.error.details[0].message });
   }
 
-  const {email,password} = req.body;
   const authService = LoginService(email,password,res);
   return authService;
 }

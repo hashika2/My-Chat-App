@@ -1,13 +1,12 @@
 const Joi = require('joi');
-const validateObject = require('../../../shared/utilities');
+const {validateObject} = require('../../../shared/utilities');
 
-const USERNAME = Joi.string.required();
-const PASSWORD = Joi.string.required();
+const username = Joi.string().required();
+const password = Joi.string().required();
 
 const validateLoginAttributes = (insertAttributes) => {
     const schema = {
-        userName = USERNAME,
-        password = PASSWORD
+        username,password
     }
     return validateObject(schema,insertAttributes);
 }
