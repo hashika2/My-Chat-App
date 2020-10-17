@@ -26,34 +26,36 @@ const RegisterService = (name,email,password,res) => {
 }
 
 const LoginService = (email,password,res) => {
- User.findOne({ email }).then(user => {
-  if (!user) {
-    console.log("userot found")
-    error.email = 'User not found';
-    return res.status(404).json(error);
-  }
-
-  // Check Password
-  bcrypt.compare(password, user.password).then(isMatch => {
-    if (isMatch) {    
-      // User Matched
-      const payload = { id: user.id, name: user.name };
-      // Sign Token
-      const token=jwt.sign(
-        payload,
-        process.env.JWT_KEY,
-        { expiresIn: 3600 }
-      );
-      const accessToken = {
-        accessToken: token
+  try{
+    User.findOne({ email }).then(user => {
+      if (!user) {
+        const error = 'User not found';
+        return res.status(404).json(error);
       }
-      res.send(accessToken)
-    } else {
-      error.password = 'Password incorrect';
-      return res.status(400).json(error);
-    }
-  });
-});   
+    
+      // Check Password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {    
+          // User Matched
+          const payload = { id: user.id, name: user.name };
+          // Sign Token
+          const token=jwt.sign(
+            payload,
+            process.env.JWT_KEY,
+            { expiresIn: 3600 }
+          );
+          const accessToken = {
+            accessToken: token
+          }
+          res.send(accessToken)
+        } else {
+          return res.status(400).json('Password incorrect');
+        }
+      });
+    })
+  }catch(error){
+    return res.status(500).json(error);
+  }
 }
 
 module.exports = {RegisterService, LoginService};
