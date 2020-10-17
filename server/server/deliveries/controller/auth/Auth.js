@@ -1,26 +1,25 @@
-const  {RegisterService,LoginService}  = require('../../../services/AuthService');
-const { check, validationResult } = require("express-validator");
-const {validateLoginAttributes} = require('./loginAttributesValidation')
+const {RegisterService,LoginService} = require('../../../services/AuthService');
+const {validateLoginAttributes, validateRegisterAttributes} = require('./authAttributesValidation')
 
 const Register = (req,res) => {
-    const  error = validationResult(req);
-    if (!error.isEmpty()) {
-      return res.status(400).json({ errors: error.array() });
-    }
-
-    const {name,email,password} = req.body;
-    const authService = RegisterService(name,email,password,res);
-    return authService;
-}
-
-const Login = (req,res) => {
-  const { email,password } = req.body;
-  const validateResult = validateLoginAttributes({email,password})
+    const { username,email,password } = req.body;
+    const validateResult = validateRegisterAttributes({username,email,password})
   if (validateResult.error) {
     return res.status(400).json({ error: validateResult.error.details[0].message });
   }
 
-  const authService = LoginService(email,password,res);
-  return authService;
+    const registerService = RegisterService(username,email,password,res);
+    return registerService;
+}
+
+const Login = (req,res) => {
+  const { email,password } = req.body;
+  const validateResult = validateLoginAttributes({password,email});
+  if (validateResult.error) {
+    return res.status(400).json({ error: validateResult.error.details[0].message });
+  }
+
+  const loginService = LoginService(email,password,res);
+  return loginService;
 }
 module.exports = {Register,Login};

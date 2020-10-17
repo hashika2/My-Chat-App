@@ -5,9 +5,9 @@ require("dotenv").config();
 const bcrypt = require('bcryptjs')
 
 database.db();
-const RegisterService = (name,email,password,res) => {
+const RegisterService = (username,email,password,res) => {
     const user = new User({
-        name:name,
+        name:username,
         email:email,
         password:password
     });
