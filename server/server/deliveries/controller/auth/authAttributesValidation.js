@@ -7,10 +7,11 @@ const password = Joi.string().required();
 
 const validateLoginAttributes = (insertAttributes) => {
     const schema = {
-        password,email
+        email,password
     }
     return validateObject(schema,insertAttributes);
 }
+
 const validateRegisterAttributes = (insertAttributes) => {
     const schema = {
         username,email,password
