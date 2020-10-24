@@ -2,15 +2,10 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
-const chatUser = require('./chatUser');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
-const assert = require('assert');
-const mongoose = require('mongoose');
-// const router = require('./router');
 const router = require('../server/server/deliveries/controller/auth/index');
+const router2 = require('../server/server/deliveries/controller/upload');
 const { User, validate } = require('../server/server/shared/database/entities/User');
-const url ="mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
-//create different model
 const {students,chats,officers,clients,developers} = require('./rooms/rooms');
 
 const app = express();
@@ -18,7 +13,8 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = socketio(server);
 app.use(cors());
-app.use(router);       
+app.use(router);   
+app.use(router2);     
 
 io.on('connect', (socket) => {
   socket.on('join', ({ name, room }, callback) => { 
@@ -115,4 +111,5 @@ io.on('connect', (socket) => {
 });   
 
 app.use('/api/user',router);
+app.use('/api/user',router2);
 server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
