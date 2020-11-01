@@ -2,11 +2,10 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducer from './reducer';
-//import setAuthToken from './utils/setAuthToken';
+// import setAuthToken from './utils/setAuthToken';
 
 // prevent auth error on first run of subscription
 const initialState = { auth: { token: null } };
-
 const middleware = [thunk];
 
 const store = createStore(
@@ -27,7 +26,7 @@ store.subscribe(() => {
   // if the token changes set the value in localStorage and axios headers
   if (previousState.auth.token !== currentState.auth.token) {
     const token = currentState.auth.token;
-    //setAuthToken(token);
+    // setAuthToken(token);
     localStorage.setItem("token",token)
   }
 });
