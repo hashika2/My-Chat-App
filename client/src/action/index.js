@@ -1,5 +1,5 @@
 import axios from 'axios';
-//import{ setAlert} from './alert';
+import{ setAlert} from './alert';
 import { v4 as uuidv4 } from 'uuid';
 
 export const roommed = ({name,room}) => async dispatch=> {
@@ -14,7 +14,6 @@ export const roommed = ({name,room}) => async dispatch=> {
 }
 
 export const register=({name,email,password}) => async dispatch => {
-    console.log(email)
     const config = {
         headers: {
           'Content-Type': 'application/json'
@@ -23,13 +22,23 @@ export const register=({name,email,password}) => async dispatch => {
     const body = {
         name,email,password
     }
-    const res = await axios.post('http://localhost:5000/api/user',body,config);
+    try{
+        const res = await axios.post('http://localhost:5000/api/user',body,config);
 
-    dispatch({
-        type:"USER_REGISTERED",  
-        payload:res.data
-    })
-    alertData(res.data);
+        dispatch({
+            type:"USER_REGISTERED",  
+            payload:res.data
+        })
+        alertData(res.data);
+    }catch(error){
+        if(error){
+            console.log("error "+error)
+            dispatch(setAlert(error,'danger'))
+        }
+        dispatch({
+            type:"REGISTER_FAIL"
+        })
+    }
 }
 
 const alertData = (data)=>async dispatch => {
@@ -45,21 +54,21 @@ export const login=({email,password}) => async dispatch => {
         headers: {
           'Content-Type': 'application/json'
         }
-      };
+    };
     const body = {
         email,password
     }
     try{
         const res = await axios.post('http://localhost:5000/api/user/login',body,config);
-        dispatch({  
+        dispatch({
             type:"USER_LOGGED",
             payload:res.data
         })
-    }catch(err){
-        const error = err.response.data.error;
-        console.log("error"+error)
+    }catch(error){
         if(error){
-            error.forEach(error => { dispatch(setAlert(error,'danger'))});
+            console.log("error   "+error)
+            // error.map(error => { dispatch(setAlert(error,'danger'))});
+            dispatch(setAlert(error,'danger'));
         }
         dispatch({
             type:"LOGIN_FAIL"
@@ -75,7 +84,7 @@ export const getRoomData = (room) => async dispatch => {
           'Content-Type': 'application/json'
         }
     };
-    const body = {room}
+    const body = { room }
     const res = await axios.get("http://localhost:5000/api/user/roomData",body,config);
     dispatch({
         type:"GET_ROOM_DATA",
@@ -83,13 +92,3 @@ export const getRoomData = (room) => async dispatch => {
     });
 }
 
-export const setAlert = (msg, alertType, timeout = 5000) => dispatch => {
-    const id = uuidv4();
-    console.log(msg)
-    dispatch({
-      type:' SET_ALERT',
-      payload: { msg, alertType, id }
-    });
-  
-    setTimeout(() => dispatch({ type: 'REMOVE_ALERT', payload: id }), timeout);
-  };
