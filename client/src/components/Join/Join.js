@@ -8,7 +8,7 @@ import {getRoomData} from '../../action/index';
 
 import './Join.css';
 
-const SignIn=({roommed,isAuthenticated,location,getRoomData}) =>{
+const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [selectedImage,setImage] = useState('');
