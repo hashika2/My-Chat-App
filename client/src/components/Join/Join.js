@@ -75,8 +75,8 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
               <button className={'button mt-20'} type="submit">Sign In</button>
             </Link>
             <Link to={`/privateChat?name=${email}&room=${privateRoom}`}><button className={'button mt-20'} type="submit">Private Message</button></Link>
-            <input type="file" onChange = {onChangeHandler} ref = {fileInput => fileInput = fileInput} ></input>
-            <button onClick = {fielUploadHandler}> Upload </button>
+            <input type="file" className = "btn btn-warning btn-lg btn-block mt-20" onChange = {onChangeHandler} ref = {fileInput => fileInput = fileInput} ></input>
+            <button onClick = {fielUploadHandler} className = "btn btn-primary btn-lg btn-block mt-20"> Upload </button>
             {/* <button onClick={(fileInput)=>{fileInput.click()}}>Pick Image</button>
             <button onClick={fielUploadHandler}>Upload</button> */}
           </form>
