@@ -6,23 +6,25 @@ const bcrypt = require('bcryptjs')
 
 database.db();
 const RegisterService = (username,email,password,res) => {
+  try{
     const user = new User({
-        name:username,
-        email:email,
-        password:password
+      name:username,
+      email:email,
+      password:password
     });
 
     user.save();
-    // User Matched
     const payload = { id: user.id, name: user.name };
-    // Sign Token
     const token = jwt.sign(
       payload,
       process.env.JWT_KEY,
       { expiresIn: 3600 }
     );
     console.log(token)
-   return res.send(token);   
+    return res.send(token); 
+  }catch(error){
+    return res.status(500).json({error:error});
+  }  
 }
 
 const LoginService = (email,password,res) => {
@@ -36,9 +38,7 @@ const LoginService = (email,password,res) => {
       // Check Password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {    
-          // User Matched
           const payload = { id: user.id, name: user.name };
-          // Sign Token
           const token=jwt.sign(
             payload,
             process.env.JWT_KEY,
@@ -47,12 +47,12 @@ const LoginService = (email,password,res) => {
           const accessToken = {
             accessToken: token
           }
-          res.send(accessToken)
+          res.header("auth-token", accessToken).send({"token": accessToken})
         } else {
-          return res.status(400).json('Password incorrect');
+          return res.status(400).json({error:'Password incorrect'});
         }
       });
-    })
+    });
   }catch(error){
     return res.status(500).json(error);
   }
