@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../action/index';
 import IdleTimeOut from '../components/timeoutSession/IdleTimeOut';
+import TextField from '@material-ui/core/TextField';
 
 const Login = ({ login, isAuthenticated,alert }) => {
   
@@ -42,7 +43,8 @@ const Login = ({ login, isAuthenticated,alert }) => {
           <form className='text-center border border-light p-5' onSubmit={e => onSubmit(e)}>
             <p class="h4 mb-4">Sign In</p>
             <div className='form-group'>
-              <input
+              <TextField
+                id="filled-basic" label="Email Address" 
                 className="form-control"
                 type='text'
                 placeholder='Email Address'
@@ -53,7 +55,9 @@ const Login = ({ login, isAuthenticated,alert }) => {
             </div>
             <div>{emailError}</div>
             <div className='form-group'>
-              <input
+            <TextField
+                id="outlined-password-input"
+                label="Password"
                 className="form-control"
                 type='password'
                 placeholder='Password'
@@ -88,4 +92,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { login }
-)(Login);
+)(Login); 
