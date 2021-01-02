@@ -7,8 +7,9 @@ import axios from 'axios';
 import {getRoomData} from '../../action/index';
 import ImageUploading from 'react-images-uploading';
 import './Join.css';
+import { API } from '../../shared/constant';
 
-const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
+const SignIn=({roommed,isAuthenticated,location,getRoomData,authToken}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [selectedImage,setImage] = useState('');
@@ -34,9 +35,10 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
   }
   let msg = null;
   const fielUploadHandler=(event) => {
-    const fd = new FormData();
-    fd.append('file', selectedImage);
-    axios.post('http://localhost:5000/api/user/upload',fd).then(res => {
+    const accessToken= authToken.token.accessToken;
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+    axios.post(`${API}/api/user/upload`,formData,{ headers: {"Authorization" : `Bearer ${accessToken}`} }).then(res => {
        msg = res.data.message;
     })
   }
@@ -95,6 +97,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
   
 }
 const mapStateToProps=state => ({
-  isAuthenticated:state.registeredRoom
+  isAuthenticated:state.registeredRoom,
+  authToken: state.auth.data
 })
 export default connect(mapStateToProps,{roommed,getRoomData})(SignIn);
