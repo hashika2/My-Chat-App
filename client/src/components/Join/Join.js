@@ -5,10 +5,11 @@ import {connect} from 'react-redux';
 import queryString from 'query-string';
 import axios from 'axios';
 import {getRoomData} from '../../action/index';
-
+import ImageUploading from 'react-images-uploading';
 import './Join.css';
+import { API } from '../../shared/constant';
 
-const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
+const SignIn=({roommed,isAuthenticated,location,getRoomData,authToken}) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [selectedImage,setImage] = useState('');
@@ -17,7 +18,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
   const clients = 'Clients';
   const developers = 'Developers';
   const privateRoom = "Private";
-
+  const [ pictures,setPicture ] = useState([]);
   //get email from the link
   const { email } = queryString.parse(location.search);
 
@@ -29,25 +30,34 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
     return <Redirect to={`/chat?name=${name}&room=${room}`}/>
   }
 
-  const onChangeHandler = event =>{
-   setImage(event.target.files[0])
+  const onChangeHandler = event => {
+   setImage(event.target.files[0]);
+  }
+  let msg = null;
+  const fielUploadHandler=(event) => {
+    const accessToken= authToken.token.accessToken;
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+    axios.post(`${API}/api/user/upload`,formData,{ headers: {"Authorization" : `Bearer ${accessToken}`} }).then(res => {
+       msg = res.data.message;
+    })
   }
 
-  const fielUploadHandler=(event)=>{
-    console.log(event)
-    const fd = new FormData();
-    fd.append('file',selectedImage);
-    axios.post('http://localhost:5000/api/user/upload',fd).then(res=>{
-      console.log(res)
-    })
-    
+  const onChange = (picture) => {
+    setPicture(pictures.concat(picture));
   }
-  
 
   return (
     <Fragment>
       <div className="joinOuterContainer">
         <div className="joinInnerContainer">
+        <ImageUploading mode="multiple" onChange={onChange}
+                withIcon={true}
+                buttonText='Choose images'
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}>
+        </ImageUploading>
+          <p style={{backgroundColor:"green", textAlign:"center", color:"white"}}>{msg}</p>
           <h1 className="heading">Rooms</h1>
           <Link  to={`/chat?name=${email}&room=${students}`}>
               <button className={'button mt-20'} type="submit">Students</button>
@@ -87,6 +97,7 @@ const SignIn=({roommed,isAuthenticated,location,getRoomData}) => {
   
 }
 const mapStateToProps=state => ({
-  isAuthenticated:state.registeredRoom
+  isAuthenticated:state.registeredRoom,
+  authToken: state.auth.data
 })
 export default connect(mapStateToProps,{roommed,getRoomData})(SignIn);

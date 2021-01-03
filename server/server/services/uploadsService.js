@@ -6,10 +6,9 @@ const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 
 const mongoURI = "mongodb+srv://hashika:hashika@cluster0-qollh.mongodb.net/test?retryWrites=true&w=majority";
-const conn = mongoose.connect(mongoURI,{useUnifiedTopology: true,useNewUrlParser: true})
-.then(()=>console.log("db is connected")).catch(()=>console.log("eror"))
+const conn = mongoose.createConnection(mongoURI,{useUnifiedTopology: true,useNewUrlParser: true});
 
-const UploadService = (req,file) => {
+const UploadService = (req,res) => {
     // init gfs
     let gfs;
     conn.once("open", () => {
@@ -45,4 +44,4 @@ const UploadService = (req,file) => {
 
 }
 
-module.exports = {UploadService}
+module.exports = { UploadService }
