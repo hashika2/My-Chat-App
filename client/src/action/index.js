@@ -81,7 +81,7 @@ export const getRoomData = (room) => async dispatch => {
     console.log(room);
     const config = {
         headers: {  
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
     };
     const body = { room }
