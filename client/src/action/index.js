@@ -82,7 +82,7 @@ export const login = ({ email, password }) => async (dispatch) => {
 export const getRoomData = (room) => async (dispatch) => {
   const body = { room };
   const res = await axios.get(
-    "http://localhost:5000/api/user/roomData",
+    `${environment.baseUrl}/user/roomData`,
     body,
     config
   );
