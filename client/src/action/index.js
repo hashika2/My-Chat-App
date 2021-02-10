@@ -1,6 +1,6 @@
 import axios from 'axios';
 import{ setAlert} from './alert';
-import { v4 as uuidv4 } from 'uuid';
+import config from './types';
 
 export const roommed = ({name,room}) => async dispatch=> {
     const res = {
@@ -14,11 +14,6 @@ export const roommed = ({name,room}) => async dispatch=> {
 }
 
 export const register=({name,email,password}) => async dispatch => {
-    const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    };
     const body = {
         name,email,password
     }
@@ -42,7 +37,6 @@ export const register=({name,email,password}) => async dispatch => {
 }
 
 const alertData = (data)=>async dispatch => {
-     console.log("data");
         dispatch({
             type:"ALERTMESSAGE",
             payload:data
@@ -50,17 +44,12 @@ const alertData = (data)=>async dispatch => {
 }
 
 export const login=({email,password}) => async dispatch => {
-    const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    };
     const body = {
         email,password
     }
     try{
         const res = await axios.post('http://localhost:5000/api/user/login',body,config);   
-        dispatch({
+        dispatch({  
             type:"USER_LOGGED",
             payload:res.data
         })
@@ -78,12 +67,6 @@ export const login=({email,password}) => async dispatch => {
     
 }
 export const getRoomData = (room) => async dispatch => {
-    console.log(room);
-    const config = {
-        headers: {  
-          'Content-Type': 'application/json',
-        }
-    };
     const body = { room }
     const res = await axios.get("http://localhost:5000/api/user/roomData",body,config);
     dispatch({
