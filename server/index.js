@@ -1,115 +1,78 @@
-const http = require('http');
-const express = require('express');
-const socketio = require('socket.io');
-const cors = require('cors');
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
-const router = require('../server/server/deliveries/controller/auth/index');
-const router2 = require('../server/server/deliveries/controller/upload');
-const { User, validate } = require('../server/server/shared/database/entities/User');
-const {students,chats,officers,clients,developers} = require('./rooms/rooms');
-
+const http = require("http");
+const express = require("express");
+const socketio = require("socket.io");
+const cors = require("cors");
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
+const router = require("../server/server/deliveries/controller/auth/index");
+const uploadRouter = require("../server/server/deliveries/controller/upload");
+const getUsersRouter = require("../server/server/deliveries/controller/user");
+const getRoomChatData = require("./server/shared/users/getRoomChatData");
+const updateRooms = require("./server/shared/users/updateRooms");
 const app = express();
-app.use(express.json());
+app.use(express.json());     
 const server = http.createServer(app);
 const io = socketio(server);
 app.use(cors());
-app.use(router);   
-app.use(router2);     
+app.use(router);
+app.use(uploadRouter);
+app.use(getUsersRouter);
 
-io.on('connect', (socket) => {
-  socket.on('join', ({ name, room }, callback) => { 
+io.on("connect", (socket) => {
+  socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
-        
-    if(error) return callback(error);   
-    socket.join(user.room);    
-    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
-    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-    io.to(room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+
+    if (error) return callback(error);
+    socket.join(user.room);
+    socket.emit("message", {
+      user: "admin",
+      text: `${user.name}, welcome to room ${user.room}.`,
+    });
+    socket.broadcast
+      .to(user.room)
+      .emit("message", { user: "admin", text: `${user.name} has joined!` });
+    io.to(room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
     //socket.emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
 
-  //get data from db and send to font realtime
-  if(room =="Students"){   
-    students.find((err,data)=>{
-      return io.emit("output message",data);      
-    })
-  }else if(room =="Officers"){
-    officers.find((err,data) => {
-      return io.emit("output message",data);
-    })
-  }else if(room =="Clients"){       
-    clients.find((err,data) => {
-      return io.emit("output message",data);
-    })
-  }else if(room =="Developers"){
-    developers.find((err,data) =>{
-      return io.emit("output message",data);
-    })
-  }else if(room =="Private"){
-    User.find((err,data) => {
-      return io.emit("output data",data);
-    })
-  }
-  else {
-    chats.find((err,data) =>{
-      return io.emit("output message",data);
-    })
-  }
+    if (room) {
+      return getRoomChatData(room, io);
+    }
     callback();
   });
 
-  socket.on('sendMessage', (message,room, callback) => {
+  socket.on("sendMessage", (message, room, callback) => {
     const user = getUser(socket.id);
-    io.to(user.room).emit('message', { user: user.name, text: message });
+    io.to(user.room).emit("message", { user: user.name, text: message });
     callback();
-    let u = null;
-    //save messages to db    
-    if(room == 'Officers'){
-       u = new officers({
-        name:user.name,
-        message:message
-      })
-    }else if(room == "Students") {
-      u = new students({
-        name:user.name,
-        message:message
-      })
-    }else if(room == "Clients") {
-      u = new clients({
-        name:user.name,
-        message:message
-      })
-    }else if(room == "Developers") {
-      u = new developers({
-        name:user.name,
-        message:message
-      })   
-    }
-    else {
-      u = new chats({
-        name:user.name,
-        message:message
-      })
-    }
-    u.save((error,doc) => {   
-      if(error) return res.json({success:false});
+    let userCategory = null;
+    /**  save messages to db  **/
 
-      // chats.find({"_id":doc.id}).populate("sender").exec((err,doc) =>{  
-      //   console.log(doc)
-      //   return io.emit("output message",doc); 
-      // })           
-    }); 
+    userCategory = updateRooms(room, user, message);
+    userCategory.save((error, doc) => {
+      if (error) return res.json({ success: false });
+    });
   });
 
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-
-    if(user) {
-      io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
-      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+    if (user) {
+      io.to(user.room).emit("message", {
+        user: "Admin",
+        text: `${user.name} has left.`,
+      });
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
     }
-  })
-});   
+  });
+});
 
-app.use('/api/user',router);
-app.use('/api/user',router2);
-server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
+app.use("/api/user", router);
+app.use("/api/user", uploadRouter);
+app.use("/api/user", getUsersRouter);
+server.listen(process.env.PORT || 5000, () =>
+  console.log(`Server has started.`)
+);

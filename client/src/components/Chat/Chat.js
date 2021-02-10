@@ -46,12 +46,12 @@ const Chat = ({ location,afterPostMessage,chatData ,getRoomData}) => {
   }, []);
 
   useEffect(() => {
-    socket.on("output message",doc => {
-      afterPostMessage(doc);
-      doc.map(d=>{
+    socket.on("output message",chatLists => {
+      afterPostMessage(chatLists);
+      chatLists.map(chatList=>{
         var message = {
-          text:d.message,
-          user:d.name
+          text:chatList.message,
+          user:chatList.name
         }
         setMessages(messages => [ ...messages,message ]) 
       })

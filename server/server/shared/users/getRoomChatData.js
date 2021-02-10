@@ -1,4 +1,5 @@
 const {students,chats,officers,clients,developers} = require('../../../rooms/rooms');
+const { User} = require( '../database/entities/User');
 
 
 const getRoomChatData = (room,io) => {
