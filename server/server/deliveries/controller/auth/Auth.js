@@ -3,6 +3,10 @@ const {validateLoginAttributes, validateRegisterAttributes} = require('./authAtt
 const validateHeaders  = require('../../../shared/validateHeaders');
 
 const Register = (req,res) => {
+  const checkHeaders = validateHeaders(req);
+  if (!checkHeaders) {
+    return res.status(400).json({ error: 'Custom headers are not supplied' });
+  }
   const { username,email,password } = req.body;
   const validateResult = validateRegisterAttributes({username,email,password});
   if (validateResult.error) {
