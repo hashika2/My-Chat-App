@@ -27,12 +27,13 @@ const SignIn = ({
   const developers = "Developers";
   const privateRoom = "Private";
   const [pictures, setPicture] = useState([]);
-  //get email from the link
+  /**get email from the link**/
   const { email } = queryString.parse(location.search);
+  const userEmail =  authToken.token.user;
 
-  useEffect(()=>{
+  useEffect(() => {
     getUsers(accessToken);
-  },[])
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -63,9 +64,7 @@ const SignIn = ({
     setPicture(pictures.concat(picture));
   };
 
-  const getPrivateChatMessage = () => {
-   
-  };
+  const getPrivateChatMessage = () => {};
 
   return (
     <Fragment>
@@ -89,25 +88,25 @@ const SignIn = ({
             {msg}
           </p>
           <h1 className="heading">Rooms</h1>
-          <Link to={`/chat?name=${email}&room=${students}`}>
+          <Link to={`/chat?name=${userEmail}&room=${students}`}>
             <button className={"button mt-20"} type="submit">
               Students
             </button>
           </Link>
           <Link
-            to={`/chat?name=${email}&room=${officers}`}
+            to={`/chat?name=${userEmail}&room=${officers}`}
             onClick={(e) => getRoomData(officers)}
           >
             <button className={"button mt-20"} type="submit">
               Officers
             </button>
           </Link>
-          <Link to={`/chat?name=${email}&room=${clients}`}>
+          <Link to={`/chat?name=${userEmail}&room=${clients}`}>
             <button className={"button mt-20"} type="submit">
               Clients
             </button>
           </Link>
-          <Link to={`/chat?name=${email}&room=${developers}`}>
+          <Link to={`/chat?name=${userEmail}&room=${developers}`}>
             <button className={"button mt-20"} type="submit">
               Developers
             </button>
