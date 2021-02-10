@@ -3,13 +3,11 @@ import { API, Bearer, config } from '../shared/constant';
 import  LOGGED_USER  from './types'
 
 export const getUsers = (authToken)=> async dispatch => {
-    console.log(authToken)
     try{
-        const accessToken= authToken.token.accessToken;
         const config = {
             headers: {  
               'Content-Type': 'application/json',
-              "Authorization" : `${Bearer} ${accessToken}`
+              "Authorization" : `${Bearer} ${authToken}`
             }
         }
         const res = await axios.get(`${API}/api/user/getUsers`,config);
